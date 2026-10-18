@@ -1,0 +1,62 @@
+{
+    "name": "appandsite/base-theme",
+    "type": "wordpress-theme",
+    "license": "MIT",
+    "description": "AppAndSite WordPress starter theme based on Roots Sage.",
+    "authors": [
+        {
+            "name": "AppAndSite"
+        }
+    ],
+    "keywords": [
+        "wordpress",
+        "sage",
+        "appandsite"
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php": ">=8.2",
+        "livewire/livewire": "^3.6",
+        "log1x/acf-composer": "^3.4",
+        "log1x/sage-svg": "^2.0",
+        "roots/acorn": "^5.0",
+        "roots/acorn-mail": "^1.0",
+        "roots/acorn-post-types": "^1.0",
+        "roots/acorn-prettify": "^1.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.20",
+        "php-stubs/acf-pro-stubs": "^6.5",
+        "phpstan/extension-installer": "*",
+        "phpstan/phpstan": "^2.1",
+        "szepeviktor/phpstan-wordpress": "*"
+    },
+    "suggest": {
+        "log1x/sage-directives": "A collection of useful Blade directives for WordPress and Sage (^1.0)."
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-autoload-dump": [
+            "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
+        ],
+        "pint": [
+            "pint"
+        ],
+        "phpstan": [
+            "phpstan analyse --memory-limit=1G"
+        ]
+    }
+}

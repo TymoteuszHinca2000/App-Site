@@ -1,0 +1,19 @@
+parameters:
+    level: 5
+    paths:
+        - app
+    excludePaths:
+        - vendor
+    bootstrapFiles:
+        - vendor/autoload.php
+    scanFiles:
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
+    ignoreErrors:
+        # Sage/Acorn View Composer PHPDoc compatibility
+        - '#PHPDoc type array of property App\\View\\Composers\\.*::\$views is not covariant#'
+        # Laravel helper functions (public_path, etc.)
+        - '#Function public_path not found#'
+        # Safe usage of new static() in models
+        - '#Unsafe usage of new static\(\)#'
+        # Filter callbacks without explicit returns
+        - '#Filter callback return statement is missing#'

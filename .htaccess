@@ -1,0 +1,124 @@
+# Security rules for WordPress theme
+# Deny access to sensitive files and directories
+
+# Disable directory listing
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+# Block access to Blade templates
+<FilesMatch ".+\.(blade\.php)$">
+    # Apache 2.4
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+
+    # Apache 2.2
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Block access to .env files
+<FilesMatch "^\.env">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to composer files
+<FilesMatch "^composer\.(json|lock)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to package.json and package-lock.json
+<FilesMatch "^package(-lock)?\.json$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to yarn.lock and pnpm-lock.yaml
+<FilesMatch "^(yarn\.lock|pnpm-lock\.yaml)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to configuration files
+<FilesMatch "^(vite\.config\.js|tailwind\.config\.js|bud\.config\.js|\.editorconfig|\.gitignore|\.gitattributes|phpcs\.xml|phpunit\.xml|phpstan\.neon|psalm\.xml|CLAUDE\.md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to README and LICENSE files
+<FilesMatch "^(README|LICENSE)(\.md|\.txt)?$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to vendor directory
+<IfModule mod_rewrite.c>
+    RewriteRule ^vendor/.*$ - [F,L]
+</IfModule>
+
+# Block access to node_modules directory
+<IfModule mod_rewrite.c>
+    RewriteRule ^node_modules/.*$ - [F,L]
+</IfModule>
+
+# Block access to config directory
+<IfModule mod_rewrite.c>
+    RewriteRule ^config/.*$ - [F,L]
+</IfModule>
+
+# Block access to app directory (PHP source code)
+<IfModule mod_rewrite.c>
+    RewriteRule ^app/.*$ - [F,L]
+</IfModule>
+
+# Block access to resources directory (source files)
+<IfModule mod_rewrite.c>
+    RewriteRule ^resources/.*$ - [F,L]
+</IfModule>
+
+# Block access to storage directory
+<IfModule mod_rewrite.c>
+    RewriteRule ^storage/.*$ - [F,L]
+</IfModule>
+
+# Block access to bootstrap directory
+<IfModule mod_rewrite.c>
+    RewriteRule ^bootstrap/.*$ - [F,L]
+</IfModule>
+
+# Block access to all hidden files (starting with .)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to backup and log files
+<FilesMatch "\.(bak|log|sql|old|backup|swp|tmp)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to source maps
+<FilesMatch "\.(css|js)\.map$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to system files
+<FilesMatch "^(\.DS_Store|Thumbs\.db)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Allow access to public/build directory (compiled assets)
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/wp-content/themes/appandsite/public/build/
+    RewriteRule .* - [L]
+</IfModule>

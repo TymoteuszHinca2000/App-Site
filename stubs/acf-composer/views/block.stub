@@ -1,0 +1,3 @@
+<x-block-helper.block-wrapper :block="$block" :attributes="$attributes">
+  New block content goes here.
+</x-block-helper.block-wrapper>
