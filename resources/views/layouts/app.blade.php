@@ -13,7 +13,7 @@
     <body @php(body_class('group/body'))>
         @php(wp_body_open())
 
-        <div id="app" class="overflow-hidden">
+        <div id="app" class="overflow-x-clip">
             <a class="sr-only focus:not-sr-only" href="#main">
                 {{ __('Przejdź do treści', 'appandsite') }}
             </a>

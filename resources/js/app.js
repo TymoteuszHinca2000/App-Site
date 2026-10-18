@@ -16,6 +16,8 @@ import './alpine/alpBanner.js';
 import './alpine/alpSingleFaq.js';
 import './alpine/alpRelatedOffers.js';
 import './alpine/alpAboutGallery.js';
+import './alpine/alpBlogListing.js';
+import './alpine/alpBlogContent.js';
 
 class App {
     constructor() {

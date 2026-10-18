@@ -48,6 +48,7 @@ collect([
     'setup',
     'filters',
     'offer-listing-pagination',
+    'blog-listing-pagination',
     'admin-customization',
 ])
     ->each(function ($file) {

@@ -1,20 +1,12 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Post Types
-    |--------------------------------------------------------------------------
-    |
-    | Post types to be registered with Extended CPTs
-    | <https://github.com/johnbillion/extended-cpts>
-    |
-    */
-
     'post_types' => [
         'blog' => [
             'menu_icon' => 'dashicons-admin-post',
+            'public' => true,
+            'has_archive' => false,
+            'show_in_rest' => true,
             'supports' => [
                 'title',
                 'editor',
@@ -23,7 +15,6 @@ return [
                 'thumbnail',
                 'excerpt',
             ],
-            'show_in_rest' => true,
             'names' => [
                 'singular' => 'Wpis blogowy',
                 'plural' => 'Wpisy blogowe',
@@ -43,7 +34,6 @@ return [
                 'not_found_in_trash' => 'Nie znaleziono wpisów w koszu',
             ],
         ],
-
         'offer' => [
             'menu_icon' => 'dashicons-screenoptions',
             'supports' => [
@@ -76,27 +66,20 @@ return [
             ],
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Taxonomies
-    |--------------------------------------------------------------------------
-    |
-    | Taxonomies to be registered with Extended CPTs library
-    | <https://github.com/johnbillion/extended-cpts>
-    |
-    */
-
     'taxonomies' => [
         'blog_category' => [
             'post_types' => ['blog'],
+            'public' => true,
+            'show_in_rest' => true,
+            'hierarchical' => true,
             'meta_box' => 'radio',
             'names' => [
-                'singular' => 'Kategoria',
-                'plural' => 'Kategorie',
+                'singular' => 'Kategoria bloga',
+                'plural' => 'Kategorie bloga',
                 'slug' => 'kategoria-bloga',
             ],
             'labels' => [
+                'menu_name' => 'Kategorie',
                 'all_items' => 'Wszystkie kategorie',
                 'edit_item' => 'Edytuj kategorię',
                 'view_item' => 'Zobacz kategorię',
