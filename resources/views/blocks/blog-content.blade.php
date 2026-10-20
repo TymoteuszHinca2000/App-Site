@@ -1,3 +1,4 @@
+
 @php
     $isEditor = is_admin();
     $postId = (int) (get_the_ID() ?: get_queried_object_id());
@@ -91,6 +92,10 @@
 
     $previousPost = $previousPosts[0] ?? null;
     $nextPost = $nextPosts[0] ?? null;
+
+    $previousTitle = $previousPost ? html_entity_decode(get_the_title($previousPost->ID), ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
+    $nextTitle = $nextPost ? html_entity_decode(get_the_title($nextPost->ID), ENT_QUOTES | ENT_HTML5, 'UTF-8') : '';
+
     $blogPage = get_page_by_path('blog', OBJECT, 'page');
 
     if ($blogPage && $language && function_exists('pll_get_post')) {
@@ -267,7 +272,7 @@
                                                         'decoding' => 'async',
                                                     ]) !!}
 
-                                                    <div class="absolute inset-0" style="clip-path: inset(0 50% 0 0)" @if(!$isEditor) :style="'clip-path: inset(0 ' + (100 - position) + '% 0 0)'" @endif>
+                                                    <div class="absolute inset-0 [clip-path:inset(0_50%_0_0)]" @if(!$isEditor) :style="'clip-path: inset(0 ' + (100 - position) + '% 0 0)'" @endif>
                                                         {!! wp_get_attachment_image($section['before_image']['ID'], 'large', false, [
                                                             'class' => 'h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/compare:scale-[1.025] motion-reduce:transition-none',
                                                             'loading' => 'lazy',
@@ -285,9 +290,9 @@
                                                         {{ $afterLabel }}
                                                     </span>
 
-                                                    <span class="pointer-events-none absolute inset-y-0 z-20 w-[2px] bg-white shadow-md" style="left: 50%" @if(!$isEditor) :style="'left: ' + position + '%'" @endif aria-hidden="true"></span>
+                                                    <span class="pointer-events-none absolute inset-y-0 left-1/2 z-20 w-[2px] bg-white shadow-md" @if(!$isEditor) :style="'left: ' + position + '%'" @endif aria-hidden="true"></span>
 
-                                                    <span class="pointer-events-none absolute top-1/2 z-40 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white text-primary shadow-card-soft transition-[box-shadow,background-color] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/compare:bg-brand group-hover/compare:shadow-card-hover-soft sm:h-12 sm:w-12" style="left: 50%" @if(!$isEditor) :style="'left: ' + position + '%'" @endif aria-hidden="true">
+                                                    <span class="pointer-events-none absolute top-1/2 left-1/2 z-40 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white text-primary shadow-card-soft transition-[box-shadow,background-color] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/compare:bg-brand group-hover/compare:shadow-card-hover-soft sm:h-12 sm:w-12" @if(!$isEditor) :style="'left: ' + position + '%'" @endif aria-hidden="true">
                                                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                             <path d="M9 6L3 12L9 18M15 6L21 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                         </svg>
@@ -370,6 +375,7 @@
                                                                     @php
                                                                         $value = $tableRow['cells'][$loop->index]['value'] ?? '';
                                                                     @endphp
+
                                                                     <td>
                                                                         @if($loop->first)
                                                                             <strong>{{ $value }}</strong>
@@ -453,37 +459,47 @@
             </div>
 
             @if($showNavigation && ($previousPost || $nextPost))
-                <nav class="mt-12 grid grid-cols-2 gap-3 border-t border-border pt-6 sm:mt-16 sm:gap-6 sm:pt-8" aria-label="{{ esc_attr__('Nawigacja między wpisami', 'appandsite') }}">
+                <nav class="mt-12 grid grid-cols-2 gap-x-4 gap-y-6 border-t border-border pt-6 sm:mt-16 sm:gap-x-8 sm:pt-8" aria-label="{{ esc_attr__('Nawigacja między wpisami', 'appandsite') }}">
                     <div class="min-w-0">
                         @if($previousPost)
-                            <a href="{{ esc_url(get_permalink($previousPost->ID)) }}" class="group inline-flex max-w-full flex-col items-start gap-2 text-left">
-                                <span class="inline-flex items-center gap-2 text-[12px] text-muted sm:text-[13px]">
-                                    <svg class="h-4 w-4 text-brand transition-transform duration-300 group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <div class="group flex max-w-full flex-col items-start gap-2 text-left">
+                                <a href="{{ esc_url(get_permalink($previousPost->ID)) }}" class="inline-flex items-center gap-2 text-[12px] text-muted transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:text-[13px]">
+                                    <svg class="h-4 w-4 shrink-0 text-brand transition-transform duration-300 group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                         <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    {{ __('Poprzedni wpis', 'appandsite') }}
-                                </span>
-                                <h6 class="transition-colors duration-300 group-hover:text-brand-active">{{ get_the_title($previousPost->ID) }}</h6>
-                            </a>
+                                    <span>{{ __('Poprzedni wpis', 'appandsite') }}</span>
+                                </a>
+                                <h6 class="max-w-full">
+                                    <a href="{{ esc_url(get_permalink($previousPost->ID)) }}" class="group/title relative inline-block max-w-full pb-[6px] text-primary transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                        {{ $previousTitle }}
+                                        <span aria-hidden="true" class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/title:scale-x-100"></span>
+                                    </a>
+                                </h6>
+                            </div>
                         @endif
                     </div>
 
                     <div class="min-w-0 text-right">
                         @if($nextPost)
-                            <a href="{{ esc_url(get_permalink($nextPost->ID)) }}" class="group inline-flex max-w-full flex-col items-end gap-2 text-right">
-                                <span class="inline-flex items-center gap-2 text-[12px] text-muted sm:text-[13px]">
-                                    {{ __('Następny wpis', 'appandsite') }}
-                                    <svg class="h-4 w-4 text-brand transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <div class="group flex max-w-full flex-col items-end gap-2 text-right">
+                                <a href="{{ esc_url(get_permalink($nextPost->ID)) }}" class="inline-flex items-center gap-2 text-[12px] text-muted transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:text-[13px]">
+                                    <span>{{ __('Następny wpis', 'appandsite') }}</span>
+                                    <svg class="h-4 w-4 shrink-0 text-brand transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                         <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                </span>
-                                <h6 class="transition-colors duration-300 group-hover:text-brand-active">{{ get_the_title($nextPost->ID) }}</h6>
-                            </a>
+                                </a>
+                                <h6 class="max-w-full">
+                                    <a href="{{ esc_url(get_permalink($nextPost->ID)) }}" class="group/title relative inline-block max-w-full pb-[6px] text-primary transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                        {{ $nextTitle }}
+                                        <span aria-hidden="true" class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/title:scale-x-100"></span>
+                                    </a>
+                                </h6>
+                            </div>
                         @endif
                     </div>
 
                     <div class="col-span-2 flex justify-center sm:-mt-10">
-                        <a href="{{ esc_url($blogUrl) }}" aria-label="{{ esc_attr__('Wszystkie wpisy blogowe', 'appandsite') }}" class="inline-flex h-10 w-10 items-center justify-center rounded-[7px] border border-border text-brand-active transition-colors duration-300 hover:border-brand hover:bg-brand/10">
+                        <a href="{{ esc_url($blogUrl) }}" aria-label="{{ esc_attr__('Wszystkie wpisy blogowe', 'appandsite') }}" class="inline-flex h-10 w-10 items-center justify-center rounded-[7px] border border-border text-brand-active transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                             <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
                                 <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />

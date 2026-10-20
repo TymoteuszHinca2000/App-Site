@@ -43,7 +43,7 @@
                             <span class="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[6px] border border-brand/60 bg-brand/10 text-brand">
                                 <svg class="h-[13px] w-[13px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <path d="M12 3L13.6 8.4L19 10L13.6 11.6L12 17L10.4 11.6L5 10L10.4 8.4L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
-                                    <path d="M18.5 15.5L19.2 17.8L21.5 18.5L19.2 19.2L18.5 21.5L17.8 19.2L15.5 18.5L17.8 17.8L18.5 21.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                    <path d="M18.5 15.5L19.2 17.8L21.5 18.5L19.2 19.2L18.5 21.5L17.8 19.2L15.5 18.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
                                 </svg>
                             </span>
                             <span>{{ $prefix }}</span>
@@ -56,7 +56,9 @@
                 </div>
 
                 @if($descriptionHtml !== '')
-                    <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="150" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="wysiwyg lg:pt-3">{!! $descriptionHtml !!}</div>
+                    <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="150" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="wysiwyg lg:pt-3">
+                        {!! $descriptionHtml !!}
+                    </div>
                 @endif
             </div>
 
@@ -114,6 +116,7 @@
                                     <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </button>
+
                             <button type="button" x-ref="featuredNext" aria-label="{{ esc_attr__('Następny polecany artykuł', 'appandsite') }}" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/35 bg-primary-dark/70 text-white backdrop-blur-sm transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                 <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -124,6 +127,7 @@
                         @php
                             $featuredPost = $featuredPosts[0];
                         @endphp
+
                         @include('partials.blog-featured-card', ['featuredPost' => $featuredPost])
                     @endif
                 </div>
@@ -180,8 +184,8 @@
                 <div class="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 xl:gap-6">
                     @foreach($blogPosts as $post)
                         <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="{{ ($loop->index % 3) * 80 }}" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="min-w-0">
-                            <article class="group relative flex h-full min-w-0 flex-col rounded-[12px] border border-border bg-white shadow-card-soft transition-[border-color,box-shadow] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/45 hover:shadow-card-hover-soft motion-reduce:transition-none">
-                                <a href="{{ esc_url($post['url']) }}" aria-label="{{ esc_attr($post['title']) }}" class="relative block aspect-[16/9] overflow-hidden rounded-t-[11px] bg-primary-dark">
+                            <article class="group relative isolate flex h-full min-w-0 flex-col rounded-[12px] border border-border bg-white shadow-card-soft transition-[border-color,box-shadow] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/45 hover:shadow-card-hover-soft motion-reduce:transition-none">
+                                <a href="{{ esc_url($post['url']) }}" aria-label="{{ esc_attr($post['title']) }}" class="relative block aspect-[16/9] overflow-hidden rounded-t-[11px] bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                     @if(!empty($post['image_id']))
                                         {!! wp_get_attachment_image($post['image_id'], 'large', false, [
                                             'class' => 'h-full w-full object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.055] motion-reduce:transition-none',
@@ -193,21 +197,23 @@
                                     <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-primary-dark/30 to-transparent"></span>
                                 </a>
 
-                                <div class="flex min-w-0 flex-1 flex-col p-5 sm:p-6">
+                                <div class="relative flex min-w-0 flex-1 flex-col p-5 sm:p-6">
                                     <div class="mb-4 flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted sm:text-[12px]">
                                         @if(!empty($post['category']))
-                                            <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, 1, $post['category_slug'])) }}" class="inline-flex items-center rounded-[6px] border border-brand/30 bg-brand/10 px-2.5 py-1 font-semibold text-brand-active transition-colors duration-300 hover:border-brand hover:bg-brand/15">
+                                            <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, 1, $post['category_slug'])) }}" class="relative z-20 inline-flex items-center rounded-[6px] border border-brand/30 bg-brand/10 px-2.5 py-1 font-semibold text-brand-active transition-colors duration-300 hover:border-brand hover:bg-brand/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                                 {{ $post['category'] }}
                                             </a>
                                         @endif
                                         <span>{{ $post['date'] }}</span>
                                     </div>
 
-                                    <div class="relative mb-2 self-start pb-[5px]">
-                                        <h5>
-                                            <a href="{{ esc_url($post['url']) }}" class="transition-colors duration-300 hover:text-brand-active">{{ html_entity_decode($post['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8') }}</a>
-                                        </h5>
-                                        <span class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                                    <div class="relative z-20 mb-2 w-full min-w-0 pb-[5px]">
+                                        <a href="{{ esc_url($post['url']) }}" class="relative z-20 block w-full cursor-pointer pointer-events-auto text-primary no-underline hover:text-primary hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                            <h5 class="m-0 w-full max-w-none text-wrap text-primary">
+                                                {{ html_entity_decode($post['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8') }}
+                                            </h5>
+                                        </a>
+                                        <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
                                     </div>
 
                                     @if(!empty($post['excerpt']))
@@ -215,12 +221,11 @@
                                     @endif
 
                                     <div class="mt-auto flex flex-wrap items-end justify-between gap-x-3 gap-y-2 border-t border-border/70 pt-4">
-                                        <a href="{{ esc_url($post['url']) }}" class="group/link relative inline-flex items-center gap-2 pb-[4px] text-[13px] font-semibold text-brand-active sm:text-[14px]">
-                                            <span>{{ $postButtonText }}</span>
-                                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <a href="{{ esc_url($post['url']) }}" class="relative z-20 inline-flex w-fit cursor-pointer items-center gap-3 text-brand-active no-underline hover:text-brand-active hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                            <span class="border-b border-current pb-[2px] text-[13px] font-semibold sm:text-[14px]">{{ $postButtonText }}</span>
+                                            <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                 <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
-                                            <span class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/link:scale-x-100"></span>
                                         </a>
 
                                         <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] text-muted sm:text-[12px]">
@@ -252,7 +257,10 @@
                         </a>
                     @endif
 
-                    @php $lastPage = 0; @endphp
+                    @php
+                        $lastPage = 0;
+                    @endphp
+
                     @foreach($pageNumbers as $pageNumber)
                         @if($lastPage && $pageNumber > $lastPage + 1)
                             <span class="px-1 text-muted" aria-hidden="true">…</span>
@@ -261,7 +269,10 @@
                         <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, $pageNumber, $activeCategory)) }}" @if($pageNumber === $currentPage) aria-current="page" @endif class="flex h-10 min-w-10 items-center justify-center rounded-[8px] border px-2 text-[13px] font-semibold transition-[border-color,background-color,color] duration-300 {{ $pageNumber === $currentPage ? 'border-brand bg-brand text-primary' : 'border-border bg-white text-primary hover:border-brand hover:bg-brand/10 hover:text-brand-active' }}">
                             {{ $pageNumber }}
                         </a>
-                        @php $lastPage = $pageNumber; @endphp
+
+                        @php
+                            $lastPage = $pageNumber;
+                        @endphp
                     @endforeach
 
                     @if($currentPage < $maxPages)
