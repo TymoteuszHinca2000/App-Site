@@ -19,6 +19,7 @@ import './alpine/alpAboutGallery.js';
 import './alpine/alpBlogListing.js';
 import './alpine/alpBlogContent.js';
 import './alpine/alpRelatedBlogs.js';
+import './alpine/alpProjectScreenPreview';
 
 class App {
     constructor() {

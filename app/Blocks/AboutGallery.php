@@ -29,6 +29,7 @@ class AboutGallery extends Block
     public $post_types = [
         'page',
         'offer',
+        'project',
     ];
 
     public $blockVersion = 3;
