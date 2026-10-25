@@ -47,6 +47,7 @@ Application::configure()
 collect([
     'setup',
     'filters',
+    'google-maps',
     'offer-listing-pagination',
     'blog-listing-pagination',
     'project-listing-pagination',
