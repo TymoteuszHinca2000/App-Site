@@ -26,6 +26,7 @@ class Table extends Block
 
     public $post_types = [
         'offer',
+        'project',
     ];
 
     public $blockVersion = 3;

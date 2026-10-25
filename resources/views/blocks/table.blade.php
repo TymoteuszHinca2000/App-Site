@@ -21,7 +21,7 @@
 @endphp
 
 <x-block-helper.block-wrapper :block="$block" :attributes="$attributes">
-    @if($isEditor || is_singular('offer'))
+    @if($isEditor || is_singular(['offer', 'project']))
         <section class="relative bg-white">
             <x-ui.container>
                 <div class="w-full">
