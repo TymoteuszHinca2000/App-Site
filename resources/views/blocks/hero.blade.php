@@ -9,13 +9,7 @@
 
             @if(!empty($image['url']))
                 <div class="mt-6 overflow-hidden rounded-[14px] border border-border bg-surface">
-                    <img
-                        src="{{ esc_url($image['url']) }}"
-                        alt="{{ esc_attr($image['alt'] ?? '') }}"
-                        loading="lazy"
-                        decoding="async"
-                        class="block h-auto w-full object-cover"
-                    >
+                    {!! wp_get_attachment_image((int) ($image['ID'] ?? $image['id'] ?? 0), 'large', false, ['class' => 'block h-auto w-full object-cover', 'alt' => $image['alt'] ?? '', 'loading' => 'lazy', 'decoding' => 'async']) !!}
                 </div>
             @endif
         </x-ui.container>

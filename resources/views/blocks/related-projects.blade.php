@@ -88,7 +88,7 @@
                                                     ]) !!}
                                                 @else
                                                     <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary-dark to-primary-light">
-                                                        <svg class="h-[52px] w-[52px] text-brand/60 transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-110 group-hover/card:rotate-[8deg] motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                        <svg class="icon-tilt h-[52px] w-[52px] text-brand/60 group-hover/card:scale-110 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                             <rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" />
                                                             <path d="M9 21H15M12 18V21M7 10L10 13L16 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                                                         </svg>
@@ -116,9 +116,9 @@
                                                 <div class="flex w-full min-w-0 flex-1 flex-col">
                                                     <div class="relative z-20 mb-3 w-full min-w-0 pb-[5px]">
                                                         <a href="{{ esc_url($projectUrl) }}" class="swiper-no-swiping relative z-20 block w-full max-w-none cursor-pointer text-primary no-underline pointer-events-auto hover:text-primary hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
-                                                            <h5 class="m-0 w-full max-w-none text-wrap text-primary">{{ $projectTitle }}</h5>
+                                                            <h3 class="heading-5 m-0 w-full max-w-none text-wrap text-primary">{{ $projectTitle }}</h3>
                                                         </a>
-                                                        <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/card:scale-x-100 motion-reduce:transition-none"></span>
+                                                        <span aria-hidden="true" class="hover-underline hover-underline-card"></span>
                                                     </div>
 
                                                     @if($projectExcerpt !== '')

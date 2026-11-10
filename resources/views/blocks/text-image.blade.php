@@ -60,15 +60,7 @@
         <section class="relative bg-white">
             <x-ui.container>
                 <div class="grid grid-cols-1 items-start gap-y-8 lg:grid-cols-[45%_45%] lg:justify-between">
-                    <div
-                        @if(!$isEditor)
-                            data-aos="{{ $contentAos }}"
-                            data-aos-duration="700"
-                            data-aos-once="true"
-                            data-aos-easing="ease-out-cubic"
-                        @endif
-                        class="min-w-0 self-start {{ $contentOrder }}"
-                    >
+                    <div @if(!$isEditor) data-aos="{{ $contentAos }}" data-aos-duration="700" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="min-w-0 self-start {{ $contentOrder }}" >
                         @if(!empty($prefix))
                             <div class="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-[12px]">
                                 <span class="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[6px] border border-brand/60 bg-brand/10 text-brand">
@@ -96,16 +88,7 @@
                     </div>
 
                     @if(!empty($image['ID']))
-                        <div
-                            @if(!$isEditor)
-                                data-aos="{{ $imageAos }}"
-                                data-aos-duration="750"
-                                data-aos-delay="80"
-                                data-aos-once="true"
-                                data-aos-easing="ease-out-cubic"
-                            @endif
-                            class="group/image w-full min-w-0 self-start {{ $imageOrder }}"
-                        >
+                        <div @if(!$isEditor) data-aos="{{ $imageAos }}" data-aos-duration="750" data-aos-delay="80" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="group/image w-full min-w-0 self-start {{ $imageOrder }}" >
                             <div class="overflow-hidden rounded-[16px] border border-border bg-white/95 shadow-card-soft transition-[box-shadow,border-color,background-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/image:border-brand/45 group-hover/image:bg-white group-hover/image:shadow-card-hover">
                                 {!! wp_get_attachment_image(
                                     $image['ID'],

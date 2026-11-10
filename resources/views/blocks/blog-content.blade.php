@@ -106,7 +106,15 @@
         }
     }
 
-    $blogUrl = $blogPage ? get_permalink($blogPage->ID) : home_url('/');
+    $blogPageLanguage = $blogPage && function_exists('pll_get_post_language')
+        ? pll_get_post_language($blogPage->ID, 'slug')
+        : null;
+    $blogUrl = $blogPage
+        && $blogPage->post_status === 'publish'
+        && has_block('acf/blog-listing', $blogPage->post_content)
+        && (!$language || !$blogPageLanguage || $blogPageLanguage === $language)
+            ? get_permalink($blogPage->ID)
+            : '';
 @endphp
 
 <x-block-helper.block-wrapper :block="$block" :attributes="$attributes">
@@ -175,8 +183,8 @@
 
                                     @if(!empty($card['title']))
                                         <div class="relative inline-block max-w-full pb-[5px]">
-                                            <h6>{{ $card['title'] }}</h6>
-                                            <span class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                                            <p class="heading-6">{{ $card['title'] }}</p>
+                                            <span class="hover-underline"></span>
                                         </div>
                                     @endif
 
@@ -196,7 +204,7 @@
                                         @endif
 
                                         @if(!empty($card['button']['url']) && !empty($card['button']['title']))
-                                            <a href="{{ esc_url($card['button']['url']) }}" target="{{ esc_attr($card['button']['target'] ?: '_self') }}" @if(($card['button']['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="group/btn relative isolate inline-flex min-h-[46px] w-full items-center justify-center gap-3 overflow-hidden rounded-[8px] bg-brand px-4 text-[13px] font-bold text-primary transition-colors duration-300 before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:bg-brand-active before:content-[''] before:transition-transform before:duration-500 before:ease-out hover:text-white hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-reduce:before:transition-none">
+                                            <a href="{{ esc_url($card['button']['url']) }}" target="{{ esc_attr($card['button']['target'] ?: '_self') }}" @if(($card['button']['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group/btn min-h-[46px] w-full gap-3 rounded-[8px] px-4 text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                                 <span class="relative z-10">{{ $card['button']['title'] }}</span>
                                                 <svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                     <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -313,7 +321,7 @@
                                 @if($quoteHtml !== '')
                                     <section id="{{ esc_attr($sectionId) }}" class="scroll-mt-28" @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-once="true" @endif>
                                         <blockquote class="group relative overflow-hidden rounded-[12px] border-l-[3px] border-brand bg-surface px-6 py-6 shadow-card-soft transition-[background-color,border-color,box-shadow] duration-[950ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand-active hover:bg-surface-alt hover:shadow-card-hover-soft motion-reduce:transition-none sm:px-8 sm:py-7">
-                                            <svg class="mb-3 h-8 w-8 fill-brand transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 group-hover:-rotate-[8deg] motion-reduce:transition-none" viewBox="0 0 24 24" aria-hidden="true">
+                                            <svg class="icon-tilt mb-3 h-8 w-8 fill-brand group-hover:scale-110 group-hover:-rotate-[8deg] motion-reduce:transition-none" viewBox="0 0 24 24" aria-hidden="true">
                                                 <path d="M10.5 11H6.8C7 8.9 8.2 7.6 10.4 7.1V4.8C6.3 5.4 4 8.4 4 12.9V19H10.5V11ZM20 11H16.3C16.5 8.9 17.7 7.6 19.9 7.1V4.8C15.8 5.4 13.5 8.4 13.5 12.9V19H20V11Z" />
                                             </svg>
 
@@ -324,7 +332,7 @@
                                                     @if(!empty($section['author_url']))
                                                         <a href="{{ esc_url($section['author_url']) }}" class="relative inline-block pb-1 transition-colors duration-300 hover:text-brand-active">
                                                             {{ $section['author'] }}
-                                                            <span class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-brand transition-transform duration-500 group-hover:scale-x-100"></span>
+                                                            <span class="hover-underline"></span>
                                                         </a>
                                                     @else
                                                         {{ $section['author'] }}
@@ -421,7 +429,7 @@
                                         @if(!empty($section['icon']['ID']))
                                             <div class="relative z-10 flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full bg-brand/10 transition-transform duration-[950ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 motion-reduce:transition-none lg:h-[62px] lg:w-[62px]">
                                                 {!! wp_get_attachment_image($section['icon']['ID'], 'thumbnail', false, [
-                                                    'class' => 'h-[30px] w-[30px] object-contain transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-[8deg] motion-reduce:transition-none lg:h-[32px] lg:w-[32px]',
+                                                    'class' => 'icon-tilt h-[30px] w-[30px] object-contain motion-reduce:transition-none lg:h-[32px] lg:w-[32px]',
                                                     'alt' => '',
                                                     'aria-hidden' => 'true',
                                                     'loading' => 'lazy',
@@ -432,8 +440,8 @@
                                         <div class="relative z-10 min-w-0 flex-1">
                                             @if(!empty($section['title']))
                                                 <div class="relative inline-block max-w-full pb-[5px]">
-                                                    <h5>{{ $section['title'] }}</h5>
-                                                    <span class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100 motion-reduce:transition-none"></span>
+                                                    <p class="heading-5">{{ $section['title'] }}</p>
+                                                    <span class="hover-underline"></span>
                                                 </div>
                                             @endif
 
@@ -443,7 +451,7 @@
                                         </div>
 
                                         @if(!empty($section['button']['url']) && !empty($section['button']['title']))
-                                            <a href="{{ esc_url($section['button']['url']) }}" target="{{ esc_attr($section['button']['target'] ?: '_self') }}" @if(($section['button']['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="group/btn relative isolate inline-flex min-h-[46px] shrink-0 items-center justify-center gap-3 overflow-hidden rounded-[8px] bg-brand px-5 text-[13px] font-bold text-primary transition-colors duration-300 before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:bg-brand-active before:content-[''] before:transition-transform before:duration-500 before:ease-out hover:text-white hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-reduce:before:transition-none">
+                                            <a href="{{ esc_url($section['button']['url']) }}" target="{{ esc_attr($section['button']['target'] ?: '_self') }}" @if(($section['button']['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group/btn min-h-[46px] shrink-0 gap-3 rounded-[8px] px-5 text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                                 <span class="relative z-10">{{ $section['button']['title'] }}</span>
                                                 <svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                     <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -469,12 +477,12 @@
                                     </svg>
                                     <span>{{ __('Poprzedni wpis', 'appandsite') }}</span>
                                 </a>
-                                <h6 class="max-w-full">
+                                <p class="heading-6 max-w-full">
                                     <a href="{{ esc_url(get_permalink($previousPost->ID)) }}" class="group/title relative inline-block max-w-full pb-[6px] text-primary transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                         {{ $previousTitle }}
-                                        <span aria-hidden="true" class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/title:scale-x-100"></span>
+                                        <span aria-hidden="true" class="hover-underline hover-underline-title"></span>
                                     </a>
-                                </h6>
+                                </p>
                             </div>
                         @endif
                     </div>
@@ -488,26 +496,28 @@
                                         <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </a>
-                                <h6 class="max-w-full">
+                                <p class="heading-6 max-w-full">
                                     <a href="{{ esc_url(get_permalink($nextPost->ID)) }}" class="group/title relative inline-block max-w-full pb-[6px] text-primary transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                         {{ $nextTitle }}
-                                        <span aria-hidden="true" class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/title:scale-x-100"></span>
+                                        <span aria-hidden="true" class="hover-underline hover-underline-title"></span>
                                     </a>
-                                </h6>
+                                </p>
                             </div>
                         @endif
                     </div>
 
-                    <div class="col-span-2 flex justify-center sm:-mt-10">
-                        <a href="{{ esc_url($blogUrl) }}" aria-label="{{ esc_attr__('Wszystkie wpisy blogowe', 'appandsite') }}" class="inline-flex h-10 w-10 items-center justify-center rounded-[7px] border border-border text-brand-active transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
-                            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
-                                <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
-                                <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
-                                <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
-                            </svg>
-                        </a>
-                    </div>
+                    @if($blogUrl)
+                        <div class="col-span-2 flex justify-center sm:-mt-10">
+                            <a href="{{ esc_url($blogUrl) }}" aria-label="{{ esc_attr__('Wszystkie wpisy blogowe', 'appandsite') }}" class="inline-flex h-10 w-10 items-center justify-center rounded-[7px] border border-border text-brand-active transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                                    <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                                    <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                                    <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
+                                </svg>
+                            </a>
+                        </div>
+                    @endif
                 </nav>
             @endif
         </x-ui.container>

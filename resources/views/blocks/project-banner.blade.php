@@ -15,23 +15,44 @@
     $titleHtml = preg_replace('/<\/(strong|b)>/i', '</span>', $titleHtml);
     $titleHtml = trim($titleHtml);
 
+    if (trim(wp_strip_all_tags($titleHtml)) === '') {
+        $titleHtml = esc_html($projectTitle);
+    }
+
     $descriptionValue = trim((string) ($description ?? ''));
     $descriptionHtml = $descriptionValue !== '' ? wp_kses_post($descriptionValue) : ($projectExcerpt !== '' ? wpautop(esc_html($projectExcerpt)) : '');
 
-    $currentLanguage = function_exists('pll_current_language') ? pll_current_language('slug') : null;
-    $homeUrl = function_exists('pll_home_url') ? pll_home_url() : home_url('/');
+    $currentLanguage = function_exists('pll_get_post_language') ? pll_get_post_language($projectId, 'slug') : null;
+
+    if (!$currentLanguage && function_exists('pll_current_language')) {
+        $currentLanguage = pll_current_language('slug');
+    }
+
+    $homeUrl = function_exists('pll_home_url') ? pll_home_url($currentLanguage ?: null) : home_url('/');
     $projectsPage = get_page_by_path('projekty', OBJECT, 'page');
 
-    if(!$projectsPage) {
+    if (!$projectsPage) {
         $projectsPage = get_page_by_path('projects', OBJECT, 'page');
     }
 
-    if($projectsPage && $currentLanguage && function_exists('pll_get_post')) {
+    if ($projectsPage && $currentLanguage && function_exists('pll_get_post')) {
         $translatedPageId = pll_get_post((int) $projectsPage->ID, $currentLanguage);
-        if($translatedPageId) $projectsPage = get_post((int) $translatedPageId);
+
+        if ($translatedPageId) {
+            $projectsPage = get_post($translatedPageId);
+        }
     }
 
-    $projectsPageId = $projectsPage ? (int) $projectsPage->ID : 0;
+    $projectsPageLanguage = $projectsPage && function_exists('pll_get_post_language')
+        ? pll_get_post_language($projectsPage->ID, 'slug')
+        : null;
+    $projectsPageId = $projectsPage
+        && $projectsPage->post_type === 'page'
+        && $projectsPage->post_status === 'publish'
+        && has_block('acf/project-listing', $projectsPage->post_content)
+        && (!$currentLanguage || !$projectsPageLanguage || $projectsPageLanguage === $currentLanguage)
+            ? (int) $projectsPage->ID
+            : 0;
     $projectsUrl = $projectsPageId ? get_permalink($projectsPageId) : '';
     $projectsLabel = $projectsPageId ? get_the_title($projectsPageId) : __('Projekty', 'appandsite');
 
@@ -40,13 +61,8 @@
     $mainCategory = !empty($projectCategories) ? reset($projectCategories) : null;
     $categoryUrl = '';
 
-    if($mainCategory) {
-        if($projectsPageId && function_exists('App\\appandsite_project_page_url')) {
-            $categoryUrl = \App\appandsite_project_page_url($projectsPageId, 1, $mainCategory->slug);
-        } else {
-            $termUrl = get_term_link($mainCategory);
-            $categoryUrl = !is_wp_error($termUrl) ? $termUrl : '';
-        }
+    if($mainCategory && $projectsPageId && function_exists('App\\appandsite_project_page_url')) {
+        $categoryUrl = \App\appandsite_project_page_url($projectsPageId, 1, $mainCategory->slug);
     }
 
     $primaryButton = $buttonPrimary ?? null;
@@ -141,14 +157,12 @@
                                     <span>{{ __('Strona główna', 'appandsite') }}</span>
                                 </a>
                             </li>
-                            <li aria-hidden="true" class="text-white/35">/</li>
-                            <li>
-                                @if($projectsUrl)
+                            @if($projectsUrl)
+                                <li aria-hidden="true" class="text-white/35">/</li>
+                                <li>
                                     <a href="{{ esc_url($projectsUrl) }}" class="text-white/65 transition-colors duration-300 hover:text-brand">{{ $projectsLabel }}</a>
-                                @else
-                                    <span>{{ $projectsLabel }}</span>
-                                @endif
-                            </li>
+                                </li>
+                            @endif
                             @if($mainCategory && $categoryUrl)
                                 <li aria-hidden="true" class="text-white/35">/</li>
                                 <li><a href="{{ esc_url($categoryUrl) }}" class="text-white/65 transition-colors duration-300 hover:text-brand">{{ $mainCategory->name }}</a></li>
@@ -169,7 +183,7 @@
                         @if(!empty($buttons))
                             <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="220" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mt-7 flex flex-col flex-wrap items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4 lg:mt-8">
                                 @foreach($buttons as $button)
-                                    <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target']) }}" @if($button['target'] === '_blank') rel="noopener noreferrer" @endif class="group relative isolate inline-flex min-h-[50px] w-full items-center justify-center gap-4 overflow-hidden rounded-[8px] px-6 text-[14px] font-bold transition-[border-color,color] duration-500 ease-out before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:content-[''] before:transition-transform before:duration-500 before:ease-out hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-reduce:before:transition-none sm:w-auto {{ $button['variant'] === 'primary' ? 'bg-brand text-primary before:bg-brand-active hover:text-primary' : 'border border-white/30 bg-white/[0.02] text-white before:bg-white/10 hover:border-brand hover:text-white' }}">
+                                    <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target']) }}" @if($button['target'] === '_blank') rel="noopener noreferrer" @endif class="btn group relative isolate inline-flex min-h-[50px] w-full items-center justify-center gap-4 overflow-hidden rounded-[8px] px-6 text-[14px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto {{ $button['variant'] === 'primary' ? 'btn-primary' : 'btn-light-outline border-white/30 bg-white/[0.02]' }}">
                                         <span class="relative z-10">{{ $button['title'] }}</span>
                                         @if($button['external'])
                                             <svg class="relative z-10 h-[16px] w-[16px] shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 5H19V11M19 5L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M19 14V18C19 18.5523 18.5523 19 18 19H6C5.44772 19 5 18.5523 5 18V6C5 5.44772 5.44772 5 6 5H10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>

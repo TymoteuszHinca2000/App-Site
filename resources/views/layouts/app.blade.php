@@ -21,7 +21,7 @@
             @include('sections.header')
             @include('partials.menu-mobile')
 
-            <main id="main" class="main">
+            <main id="main" class="main" tabindex="-1">
                 @yield('content')
             </main>
 

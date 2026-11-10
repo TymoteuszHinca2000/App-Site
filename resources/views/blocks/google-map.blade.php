@@ -58,7 +58,7 @@
                                         @if(!empty($item['icon']['ID']))
                                             <span class="flex h-[54px] w-[54px] shrink-0 items-center justify-center rounded-full bg-brand/10 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-110 lg:h-[58px] lg:w-[58px] motion-reduce:transition-none">
                                                 {!! wp_get_attachment_image($item['icon']['ID'], 'thumbnail', false, [
-                                                    'class' => 'h-[28px] w-[28px] object-contain transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:rotate-[8deg] lg:h-[30px] lg:w-[30px] motion-reduce:transition-none',
+                                                    'class' => 'icon-tilt h-[28px] w-[28px] object-contain lg:h-[30px] lg:w-[30px] motion-reduce:transition-none',
                                                     'alt' => '',
                                                     'aria-hidden' => 'true',
                                                     'loading' => 'lazy',
@@ -69,8 +69,8 @@
                                         <div class="min-w-0 w-full">
                                             @if(!empty($item['title']))
                                                 <div class="relative inline-block max-w-full pb-[6px]">
-                                                    <h5 class="!m-0">{{ $item['title'] }}</h5>
-                                                    <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/card:scale-x-100 motion-reduce:transition-none"></span>
+                                                    <h3 class="heading-5 !m-0">{{ $item['title'] }}</h3>
+                                                    <span aria-hidden="true" class="hover-underline hover-underline-card"></span>
                                                 </div>
                                             @endif
                                             @if(!empty($item['description']))
@@ -151,16 +151,16 @@
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <h5 class="!m-0 !text-white" x-text="activeLocation.title"></h5>
+                                        <h3 class="heading-5 !m-0 !text-white" x-text="activeLocation.title"></h3>
                                         <p class="mt-1 !mb-0 text-[12px] leading-[1.6] text-white/65 sm:text-[13px]" x-text="activeLocation.address"></p>
                                     @else
-                                        <h5 class="!m-0 !text-white">{{ $mapLocations[0]['title'] }}</h5>
+                                        <h3 class="heading-5 !m-0 !text-white">{{ $mapLocations[0]['title'] }}</h3>
                                         <p class="mt-1 !mb-0 text-[12px] leading-[1.6] text-white/65 sm:text-[13px]">{{ $mapLocations[0]['address'] }}</p>
                                     @endif
                                 </div>
 
                                 @if($showDirectionsButton)
-                                    <a href="{{ esc_url($directionsUrl) }}" target="{{ esc_attr($directionsTarget) }}" @if($directionsTarget === '_blank') rel="noopener noreferrer" @endif class="group relative isolate inline-flex min-h-[46px] shrink-0 items-center justify-center gap-3 overflow-hidden rounded-[8px] bg-brand px-5 text-[13px] font-bold text-primary no-underline before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:bg-brand-active before:transition-transform before:duration-500 before:ease-out before:content-[''] hover:before:scale-x-100 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-reduce:before:transition-none">
+                                    <a href="{{ esc_url($directionsUrl) }}" target="{{ esc_attr($directionsTarget) }}" @if($directionsTarget === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group min-h-[46px] shrink-0 gap-3 rounded-[8px] px-5 text-[13px] font-bold no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                         <span class="relative z-10">{{ $directionsTitle }}</span>
                                         <svg class="relative z-10 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                                     </a>

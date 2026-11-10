@@ -1,3 +1,4 @@
+@include('partials.main-heading')
 
 <article id="post-{{ get_the_ID() }}" class="{{ esc_attr(implode(' ', get_post_class('single-project'))) }}">
     @php

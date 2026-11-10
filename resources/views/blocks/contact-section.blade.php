@@ -79,6 +79,14 @@
             $formShortcode = trim((string) $contactForm->shortcode());
             $formShortcode = preg_replace('/\]$/', ' html_class="appandsite-contact-form"]', $formShortcode);
             $formHtml = do_shortcode($formShortcode);
+            $formTags = new \WP_HTML_Tag_Processor($formHtml);
+
+            while ($formTags->next_tag(['class_name' => 'app-contact-submit-wrap'])) {
+                $formTags->add_class('btn');
+                $formTags->add_class('btn-primary');
+            }
+
+            $formHtml = $formTags->get_updated_html();
 
             if (trim($formHtml) === '' || str_contains($formHtml, 'wpcf7-contact-form-not-found')) {
                 $formHtml = '';
@@ -123,7 +131,7 @@
                         </div>
                     @endif
 
-                    <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="700" data-aos-delay="200" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mt-8 min-w-0 sm:mt-9 [&_.app-contact-fields]:grid [&_.app-contact-fields]:grid-cols-1 sm:[&_.app-contact-fields]:grid-cols-2 [&_.app-contact-fields]:gap-x-5 [&_.app-contact-fields]:gap-y-5 [&_.app-contact-field]:flex [&_.app-contact-field]:min-w-0 [&_.app-contact-field]:flex-col [&_.app-contact-field]:gap-2 [&_.app-contact-field_p]:contents [&_.app-contact-field_br]:hidden [&_.app-contact-full]:col-span-full [&_.app-contact-label]:!m-0 [&_.app-contact-label]:block [&_.app-contact-label]:!text-[13px] [&_.app-contact-label]:!font-medium [&_.app-contact-label]:!leading-[1.4] [&_.app-contact-label]:!text-text [&_.app-contact-label_strong]:!text-brand-active [&_.wpcf7-form-control-wrap]:block [&_.wpcf7-form-control-wrap]:w-full [&_.app-contact-message]:!min-h-[160px] [&_.app-contact-message]:!h-[170px] [&_.app-contact-message]:!overflow-y-auto [&_.app-contact-consent]:mt-5 [&_.app-contact-consent]:text-[12px] [&_.app-contact-consent]:leading-[1.7] [&_.app-contact-consent]:text-muted [&_.app-contact-consent_p]:!m-0 [&_.app-contact-consent_br]:hidden [&_.app-contact-consent_a]:font-medium [&_.app-contact-consent_a]:text-brand-active [&_.app-contact-consent_a]:underline [&_.app-contact-consent_a]:underline-offset-4 [&_.wpcf7-list-item]:!m-0 [&_.wpcf7-list-item_label]:text-muted [&_.app-contact-actions]:mt-6 [&_.app-contact-actions]:flex [&_.app-contact-actions]:flex-col [&_.app-contact-actions]:items-stretch [&_.app-contact-actions]:gap-4 sm:[&_.app-contact-actions]:flex-row sm:[&_.app-contact-actions]:items-center sm:[&_.app-contact-actions]:justify-between [&_.app-contact-actions_p]:contents [&_.app-contact-actions_br]:hidden [&_.app-contact-submit-wrap]:relative [&_.app-contact-submit-wrap]:isolate [&_.app-contact-submit-wrap]:inline-flex [&_.app-contact-submit-wrap]:min-h-[52px] [&_.app-contact-submit-wrap]:w-fit [&_.app-contact-submit-wrap]:max-w-full [&_.app-contact-submit-wrap]:self-start [&_.app-contact-submit-wrap]:shrink-0 [&_.app-contact-submit-wrap]:items-center [&_.app-contact-submit-wrap]:overflow-hidden [&_.app-contact-submit-wrap]:rounded-[8px] [&_.app-contact-submit-wrap]:bg-brand [&_.app-contact-submit-wrap]:text-primary [&_.app-contact-submit-wrap]:transition-colors [&_.app-contact-submit-wrap]:duration-300 [&_.app-contact-submit-wrap]:before:pointer-events-none [&_.app-contact-submit-wrap]:before:absolute [&_.app-contact-submit-wrap]:before:inset-0 [&_.app-contact-submit-wrap]:before:z-0 [&_.app-contact-submit-wrap]:before:origin-left [&_.app-contact-submit-wrap]:before:scale-x-0 [&_.app-contact-submit-wrap]:before:bg-brand-active [&_.app-contact-submit-wrap]:before:content-[''] [&_.app-contact-submit-wrap]:before:transition-transform [&_.app-contact-submit-wrap]:before:duration-300 [&_.app-contact-submit-wrap]:before:ease-out [&_.app-contact-submit-wrap:hover]:text-white [&_.app-contact-submit-wrap:hover]:before:scale-x-100 [&_.app-contact-submit-wrap_p]:contents [&_.app-contact-submit-wrap_br]:hidden [&_.app-contact-submit]:relative [&_.app-contact-submit]:z-10 [&_.app-contact-submit]:!m-0 [&_.app-contact-submit]:!h-[52px] [&_.app-contact-submit]:!w-auto [&_.app-contact-submit]:max-w-full [&_.app-contact-submit]:!cursor-pointer [&_.app-contact-submit]:!border-0 [&_.app-contact-submit]:!rounded-[8px] [&_.app-contact-submit]:!bg-transparent [&_.app-contact-submit]:!px-6 [&_.app-contact-submit]:!pr-14 [&_.app-contact-submit]:!text-[14px] [&_.app-contact-submit]:!font-bold [&_.app-contact-submit]:!text-current [&_.app-contact-submit]:!shadow-none [&_.app-contact-submit]:!transition-none [&_.app-contact-submit-wrap_svg]:pointer-events-none [&_.app-contact-submit-wrap_svg]:absolute [&_.app-contact-submit-wrap_svg]:right-5 [&_.app-contact-submit-wrap_svg]:z-10 [&_.app-contact-submit-wrap_svg]:h-[16px] [&_.app-contact-submit-wrap_svg]:w-[16px] [&_.app-contact-submit-wrap_svg]:transition-transform [&_.app-contact-submit-wrap_svg]:duration-300 [&_.app-contact-submit-wrap:hover_svg]:translate-x-1 [&_.wpcf7-not-valid-tip]:mt-1 [&_.wpcf7-not-valid-tip]:text-[12px] [&_.wpcf7-response-output]:!mx-0 [&_.wpcf7-response-output]:!mb-0 [&_.wpcf7-response-output]:!mt-4 [&_.wpcf7-response-output]:rounded-[8px] [&_.wpcf7-response-output]:!border-border [&_.wpcf7-response-output]:!p-3 [&_.app-contact-submit-wrap_.wpcf7-spinner]:!absolute [&_.app-contact-submit-wrap_.wpcf7-spinner]:right-4 [&_.app-contact-submit-wrap_.wpcf7-spinner]:top-1/2 [&_.app-contact-submit-wrap_.wpcf7-spinner]:z-20 [&_.app-contact-submit-wrap_.wpcf7-spinner]:!m-0 [&_.app-contact-submit-wrap_.wpcf7-spinner]:-translate-y-1/2 [&_.wpcf7-form.submitting_.app-contact-submit-wrap_svg]:invisible">
+                    <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="700" data-aos-delay="200" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mt-8 min-w-0 sm:mt-9 [&_.app-contact-fields]:grid [&_.app-contact-fields]:grid-cols-1 sm:[&_.app-contact-fields]:grid-cols-2 [&_.app-contact-fields]:gap-x-5 [&_.app-contact-fields]:gap-y-5 [&_.app-contact-field]:flex [&_.app-contact-field]:min-w-0 [&_.app-contact-field]:flex-col [&_.app-contact-field]:gap-2 [&_.app-contact-field_p]:contents [&_.app-contact-field_br]:hidden [&_.app-contact-full]:col-span-full [&_.app-contact-label]:!m-0 [&_.app-contact-label]:block [&_.app-contact-label]:!text-[13px] [&_.app-contact-label]:!font-medium [&_.app-contact-label]:!leading-[1.4] [&_.app-contact-label]:!text-text [&_.app-contact-label_strong]:!text-brand-active [&_.wpcf7-form-control-wrap]:block [&_.wpcf7-form-control-wrap]:w-full [&_.app-contact-message]:!min-h-[160px] [&_.app-contact-message]:!h-[170px] [&_.app-contact-message]:!overflow-y-auto [&_.app-contact-consent]:mt-5 [&_.app-contact-consent]:text-[12px] [&_.app-contact-consent]:leading-[1.7] [&_.app-contact-consent]:text-muted [&_.app-contact-consent_p]:!m-0 [&_.app-contact-consent_br]:hidden [&_.app-contact-consent_a]:font-medium [&_.app-contact-consent_a]:text-brand-active [&_.app-contact-consent_a]:underline [&_.app-contact-consent_a]:underline-offset-4 [&_.wpcf7-list-item]:!m-0 [&_.wpcf7-list-item_label]:text-muted [&_.app-contact-actions]:mt-6 [&_.app-contact-actions]:flex [&_.app-contact-actions]:flex-col [&_.app-contact-actions]:items-stretch [&_.app-contact-actions]:gap-4 sm:[&_.app-contact-actions]:flex-row sm:[&_.app-contact-actions]:items-center sm:[&_.app-contact-actions]:justify-between [&_.app-contact-actions_p]:contents [&_.app-contact-actions_br]:hidden [&_.app-contact-submit-wrap]:relative [&_.app-contact-submit-wrap]:isolate [&_.app-contact-submit-wrap]:inline-flex [&_.app-contact-submit-wrap]:min-h-[52px] [&_.app-contact-submit-wrap]:w-fit [&_.app-contact-submit-wrap]:max-w-full [&_.app-contact-submit-wrap]:self-start [&_.app-contact-submit-wrap]:shrink-0 [&_.app-contact-submit-wrap]:items-center [&_.app-contact-submit-wrap]:overflow-hidden [&_.app-contact-submit-wrap]:rounded-[8px] [&_.app-contact-submit-wrap_p]:contents [&_.app-contact-submit-wrap_br]:hidden [&_.app-contact-submit]:relative [&_.app-contact-submit]:z-10 [&_.app-contact-submit]:!m-0 [&_.app-contact-submit]:!h-[52px] [&_.app-contact-submit]:!w-auto [&_.app-contact-submit]:max-w-full [&_.app-contact-submit]:!cursor-pointer [&_.app-contact-submit]:!border-0 [&_.app-contact-submit]:!rounded-[8px] [&_.app-contact-submit]:!bg-transparent [&_.app-contact-submit]:!px-6 [&_.app-contact-submit]:!pr-14 [&_.app-contact-submit]:!text-[14px] [&_.app-contact-submit]:!font-bold [&_.app-contact-submit]:!text-current [&_.app-contact-submit]:!shadow-none [&_.app-contact-submit]:!transition-none [&_.app-contact-submit-wrap_svg]:pointer-events-none [&_.app-contact-submit-wrap_svg]:absolute [&_.app-contact-submit-wrap_svg]:right-5 [&_.app-contact-submit-wrap_svg]:z-10 [&_.app-contact-submit-wrap_svg]:h-[16px] [&_.app-contact-submit-wrap_svg]:w-[16px] [&_.app-contact-submit-wrap_svg]:transition-transform [&_.app-contact-submit-wrap_svg]:duration-300 [&_.wpcf7-not-valid-tip]:mt-1 [&_.wpcf7-not-valid-tip]:text-[12px] [&_.wpcf7-response-output]:!mx-0 [&_.wpcf7-response-output]:!mb-0 [&_.wpcf7-response-output]:!mt-4 [&_.wpcf7-response-output]:rounded-[8px] [&_.wpcf7-response-output]:!border-border [&_.wpcf7-response-output]:!p-3 [&_.app-contact-submit-wrap_.wpcf7-spinner]:!absolute [&_.app-contact-submit-wrap_.wpcf7-spinner]:right-4 [&_.app-contact-submit-wrap_.wpcf7-spinner]:top-1/2 [&_.app-contact-submit-wrap_.wpcf7-spinner]:z-20 [&_.app-contact-submit-wrap_.wpcf7-spinner]:!m-0 [&_.app-contact-submit-wrap_.wpcf7-spinner]:-translate-y-1/2 [&_.wpcf7-form.submitting_.app-contact-submit-wrap_svg]:invisible [&_.app-contact-submit-wrap]:!p-0">
                         @if($formHtml !== '')
                             {!! $formHtml !!}
                         @elseif(current_user_can('manage_options'))
@@ -151,7 +159,7 @@
                 <div class="flex min-w-0 flex-col gap-4 lg:col-span-2">
                     <div @if(!$isEditor) data-aos="fade-left" data-aos-duration="650" data-aos-delay="120" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="rounded-[14px] border border-border bg-gradient-to-br from-surface via-white to-surface-alt/70 p-5 shadow-card-soft sm:p-7 lg:p-6 xl:p-8">
                         @if(!empty($contactTitle))
-                            <h5>{{ $contactTitle }}</h5>
+                            <h3 class="heading-5">{{ $contactTitle }}</h3>
                         @endif
 
                         @if(!empty($contactDescription))
@@ -164,15 +172,15 @@
                                     <div class="group flex min-w-0 items-start gap-4">
                                         @if(!empty($item['icon']['ID']))
                                             <span class="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-brand/10 transition-transform duration-500 ease-out group-hover:scale-110">
-                                                {!! wp_get_attachment_image((int) $item['icon']['ID'], 'thumbnail', false, ['class' => 'h-[27px] w-[27px] object-contain transition-transform duration-700 ease-out group-hover:rotate-[8deg]', 'alt' => '', 'aria-hidden' => 'true', 'loading' => 'lazy']) !!}
+                                                {!! wp_get_attachment_image((int) $item['icon']['ID'], 'thumbnail', false, ['class' => 'icon-tilt h-[27px] w-[27px] object-contain', 'alt' => '', 'aria-hidden' => 'true', 'loading' => 'lazy']) !!}
                                             </span>
                                         @endif
 
                                         <div class="min-w-0 flex-1 pt-0.5">
                                             @if(!empty($item['title']))
                                                 <div class="relative inline-block max-w-full pb-[4px]">
-                                                    <h6 class="!m-0">{{ $item['title'] }}</h6>
-                                                    <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                                                    <h4 class="heading-6 !m-0">{{ $item['title'] }}</h4>
+                                                    <span aria-hidden="true" class="hover-underline"></span>
                                                 </div>
                                             @endif
 
@@ -204,7 +212,7 @@
                         @if(!empty($socialItems))
                             <div class="mt-7">
                                 @if(!empty($socialTitle))
-                                    <h6 class="mb-3">{{ $socialTitle }}</h6>
+                                    <h4 class="heading-6 mb-3">{{ $socialTitle }}</h4>
                                 @endif
 
                                 <div class="flex flex-wrap gap-3">
@@ -215,9 +223,9 @@
                                         @endphp
                                         <a href="{{ esc_url($socialLink['url']) }}" target="{{ esc_attr($socialTarget) }}" @if($socialTarget === '_blank') rel="noopener noreferrer" @endif aria-label="{{ esc_attr($socialLink['title'] ?: __('Profil społecznościowy', 'appandsite')) }}" class="group/social flex h-[48px] w-[48px] items-center justify-center rounded-[10px] border border-border bg-white/80 shadow-card-subtle transition-[box-shadow,border-color,background-color] duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/50 hover:bg-brand/10 hover:shadow-card-hover-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                             @if(!empty($social['icon']['ID']))
-                                                {!! wp_get_attachment_image((int) $social['icon']['ID'], 'thumbnail', false, ['class' => 'h-[23px] w-[23px] object-contain transition-transform duration-700 ease-out group-hover/social:rotate-[8deg] group-hover/social:scale-110 motion-reduce:transition-none', 'alt' => '', 'aria-hidden' => 'true', 'loading' => 'lazy']) !!}
+                                                {!! wp_get_attachment_image((int) $social['icon']['ID'], 'thumbnail', false, ['class' => 'icon-tilt h-[23px] w-[23px] object-contain group-hover/social:scale-110 motion-reduce:transition-none', 'alt' => '', 'aria-hidden' => 'true', 'loading' => 'lazy']) !!}
                                             @else
-                                                <svg class="h-5 w-5 text-brand-active transition-transform duration-700 ease-out group-hover/social:rotate-[8deg] group-hover/social:scale-110 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <svg class="icon-tilt h-5 w-5 text-brand-active group-hover/social:scale-110 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                     <path d="M10 14L14 10M8 16H6C3 16 3 13 5 11L8 8C10 6 13 7 14 8M16 8H18C21 8 21 11 19 13L16 16C14 18 11 17 10 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
                                                 </svg>
                                             @endif
@@ -240,7 +248,7 @@
                                     @endif
                                     <div class="min-w-0">
                                         @if(!empty($quickTitle))
-                                            <h6 class="!m-0 !text-white">{{ $quickTitle }}</h6>
+                                            <h3 class="heading-6 !m-0 !text-white">{{ $quickTitle }}</h3>
                                         @endif
                                         @if(!empty($quickDescription))
                                             <p class="mt-1 !text-[13px] !leading-[1.5] !text-white/75">{{ $quickDescription }}</p>
@@ -249,7 +257,7 @@
                                 </div>
 
                                 @if($quickUrl !== '' && $quickLabel !== '')
-                                    <a href="{{ esc_url($quickUrl) }}" target="{{ esc_attr($quickTarget) }}" @if($quickTarget === '_blank') rel="noopener noreferrer" @endif class="group/button relative isolate inline-flex min-h-[45px] w-full shrink-0 items-center justify-center gap-3 overflow-hidden rounded-[8px] border border-white/35 px-4 text-[12px] font-semibold text-white transition-[border-color,color] duration-500 ease-out before:pointer-events-none before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:bg-brand before:content-[''] before:transition-transform before:duration-500 before:ease-out hover:border-brand hover:text-primary hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-reduce:before:transition-none sm:w-auto">
+                                    <a href="{{ esc_url($quickUrl) }}" target="{{ esc_attr($quickTarget) }}" @if($quickTarget === '_blank') rel="noopener noreferrer" @endif class="btn btn-brand-outline group/button min-h-[45px] w-full shrink-0 gap-3 rounded-[8px] border border-white/35 px-4 text-[12px] font-semibold hover:border-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto">
                                         <span class="relative z-10">{{ $quickLabel }}</span>
                                         <svg class="relative z-10 h-[16px] w-[16px] shrink-0 transition-transform duration-300 group-hover/button:translate-x-1 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                             <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

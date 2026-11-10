@@ -1,3 +1,5 @@
+@include('partials.main-heading')
+
 @php(the_content())
 
 @if ($pagination())

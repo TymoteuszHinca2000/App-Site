@@ -57,14 +57,14 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th class="w-[32%]">
-                                                    {{ $column1 ?: 'Element' }}
+                                                <th scope="col" class="w-[32%]">
+                                                    {{ $column1 ?: __('Element', 'appandsite') }}
                                                 </th>
-                                                <th class="w-[50%]">
-                                                    {{ $column2 ?: 'Opis' }}
+                                                <th scope="col" class="w-[50%]">
+                                                    {{ $column2 ?: __('Opis', 'appandsite') }}
                                                 </th>
-                                                <th class="w-[18%] text-center">
-                                                    {{ $column3 ?: 'W standardzie' }}
+                                                <th scope="col" class="w-[18%] text-center">
+                                                    {{ $column3 ?: __('W standardzie', 'appandsite') }}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -84,6 +84,7 @@
                                                     <td class="text-center">
                                                         @if(!empty($row['included']))
                                                             <span class="inline-flex items-center justify-center text-brand">
+                                                                <span class="sr-only">{{ __('Tak', 'appandsite') }}</span>
                                                                 <svg class="h-[20px] w-[20px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                                     <path d="M5 12.5L9.5 17L19 7.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
                                                                 </svg>

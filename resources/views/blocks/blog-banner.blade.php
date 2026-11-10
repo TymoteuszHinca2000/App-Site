@@ -20,7 +20,7 @@
     $titleHtml = preg_replace('/<\/(strong|b)>/i', '</span>', $titleHtml);
     $titleHtml = trim($titleHtml);
 
-    if ($titleHtml === '') {
+    if (trim(wp_strip_all_tags($titleHtml)) === '') {
         $titleHtml = esc_html($postTitle);
     }
 
@@ -85,19 +85,33 @@
     $publishedDateIso = get_the_date('c', $postId);
 
     $language = function_exists('pll_get_post_language') ? pll_get_post_language($postId, 'slug') : null;
+
+    if (!$language && function_exists('pll_current_language')) {
+        $language = pll_current_language('slug');
+    }
+
     $homeUrl = function_exists('pll_home_url') ? pll_home_url($language ?: null) : home_url('/');
 
     $blogPage = get_page_by_path('blog', OBJECT, 'page');
-    $blogPageId = $blogPage ? (int) $blogPage->ID : 0;
 
-    if ($blogPageId && $language && function_exists('pll_get_post')) {
-        $translatedId = pll_get_post($blogPageId, $language);
+    if ($blogPage && $language && function_exists('pll_get_post')) {
+        $translatedId = pll_get_post((int) $blogPage->ID, $language);
 
         if ($translatedId) {
-            $blogPageId = (int) $translatedId;
+            $blogPage = get_post($translatedId);
         }
     }
 
+    $blogPageLanguage = $blogPage && function_exists('pll_get_post_language')
+        ? pll_get_post_language($blogPage->ID, 'slug')
+        : null;
+    $blogPageId = $blogPage
+        && $blogPage->post_type === 'page'
+        && $blogPage->post_status === 'publish'
+        && has_block('acf/blog-listing', $blogPage->post_content)
+        && (!$language || !$blogPageLanguage || $blogPageLanguage === $language)
+            ? (int) $blogPage->ID
+            : 0;
     $blogUrl = $blogPageId ? get_permalink($blogPageId) : '';
     $blogTitle = $blogPageId
         ? html_entity_decode((string) get_the_title($blogPageId), ENT_QUOTES | ENT_HTML5, 'UTF-8')

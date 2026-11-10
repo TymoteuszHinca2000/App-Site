@@ -63,7 +63,7 @@
         @endif
 
         <div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-4">
-            <a href="{{ esc_url($featuredPost['url']) }}" class="group/btn relative isolate inline-flex min-h-[48px] items-center justify-center gap-3 overflow-hidden rounded-[8px] bg-brand px-6 text-[13px] font-bold text-primary transition-colors duration-300 before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:bg-brand-active before:content-[''] before:transition-transform before:duration-500 before:ease-out hover:text-white hover:before:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-reduce:before:transition-none sm:min-h-[52px] sm:px-7 sm:text-[14px]">
+            <a href="{{ esc_url($featuredPost['url']) }}" class="btn btn-primary group/btn min-h-[48px] gap-3 rounded-[8px] px-6 text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:min-h-[52px] sm:px-7 sm:text-[14px]">
                 <span class="relative z-10">{{ $featuredButtonText }}</span>
                 <svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

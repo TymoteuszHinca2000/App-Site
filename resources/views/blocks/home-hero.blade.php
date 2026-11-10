@@ -20,6 +20,10 @@
         $titleHtml
     );
 
+    if (trim(wp_strip_all_tags($titleHtml)) === '') {
+        $titleHtml = esc_html(wp_strip_all_tags((string) get_the_title(get_the_ID() ?: get_queried_object_id())));
+    }
+
     $descriptionHtml = wp_kses($description ?? '', [
         'p' => [],
         'strong' => [],
@@ -60,31 +64,14 @@
     <section @if(!$isEditor) x-data="alpHomeHero(@js($galleryItems), 6500)" @endif class="relative min-h-[100svh] overflow-hidden bg-primary-dark lg:min-h-screen">
         <div class="absolute inset-0">
             @if($mediaType === 'video')
-                <video class="h-full w-full object-cover" autoplay muted loop playsinline preload="metadata" @if($posterUrl) poster="{{ $posterUrl }}" @endif aria-hidden="true"><source src="{{ $videoUrl }}" @if($videoMime) type="{{ $videoMime }}" @endif></video>
+                <video class="h-full w-full object-cover" autoplay muted loop playsinline preload="metadata" @if($posterUrl) poster="{{ esc_url($posterUrl) }}" @endif aria-hidden="true"><source src="{{ esc_url($videoUrl) }}" @if($videoMime) type="{{ esc_attr($videoMime) }}" @endif></video>
             @elseif(!empty($galleryItems))
                 @foreach($galleryItems as $index => $galleryItem)
                     @if($isEditor && $index > 0)
                         @continue
                     @endif
-                    <div
-                        @if(!$isEditor)
-                            @if($index > 0) x-cloak @endif
-                            x-show="activeIndex === {{ $index }}"
-                            x-transition:enter="transition-opacity duration-1000 ease-out"
-                            x-transition:enter-start="opacity-0"
-                            x-transition:enter-end="opacity-100"
-                            x-transition:leave="transition-opacity duration-1000 ease-out"
-                            x-transition:leave-start="opacity-100"
-                            x-transition:leave-end="opacity-0"
-                        @endif
-                        class="absolute inset-0 overflow-hidden"
-                    >
-                        <div
-                            @if(!$isEditor)
-                                :class="motionActive && activeIndex === {{ $index }} ? (motionDirection ? 'home-hero-image--forward' : 'home-hero-image--reverse') : 'home-hero-image--rest'"
-                            @endif
-                            class="home-hero-image h-full w-full"
-                        >
+                    <div @if(!$isEditor) @if($index > 0) x-cloak @endif x-show="activeIndex === {{ $index }}" x-transition:enter="transition-opacity duration-1000 ease-out" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity duration-1000 ease-out" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @endif class="absolute inset-0 overflow-hidden" >
+                        <div @if(!$isEditor) :class="motionActive && activeIndex === {{ $index }} ? (motionDirection ? 'home-hero-image--forward' : 'home-hero-image--reverse') : 'home-hero-image--rest'" @endif class="home-hero-image h-full w-full" >
                             {!! wp_get_attachment_image(
                                 $galleryItem['id'],
                                 'full',
@@ -108,11 +95,7 @@
         <div class="absolute inset-0 z-10 home-hero-shade-vertical"></div>
 
         @if(!$isEditor)
-            <canvas
-                x-ref="waves"
-                class="pointer-events-none absolute inset-0 z-[15] h-full w-full"
-                aria-hidden="true"
-            ></canvas>
+            <canvas x-ref="waves" class="pointer-events-none absolute inset-0 z-[15] h-full w-full" aria-hidden="true" ></canvas>
         @endif
 
         <x-ui.container>
@@ -133,10 +116,10 @@
                     @if($buttonPrimary || $buttonSecondary)
                         <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="700" data-aos-delay="240" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4 lg:mt-9">
                             @if($buttonPrimary)
-                                <a href="{{ $buttonPrimary['url'] }}" target="{{ $buttonPrimary['target'] ?: '_self' }}" @if(($buttonPrimary['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="group relative isolate inline-flex min-h-[54px] w-full items-center justify-center gap-4 overflow-hidden rounded-[8px] bg-brand px-7 text-[14px] font-bold text-primary-dark transition-colors duration-300 before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:bg-brand-active before:content-[''] before:transition-transform before:duration-300 before:ease-out hover:text-white hover:before:scale-x-100 sm:w-auto sm:min-w-[220px] lg:min-h-[56px] lg:px-8 lg:text-[15px]"><span class="relative z-10">{{ $buttonPrimary['title'] }}</span><svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+                                <a href="{{ esc_url($buttonPrimary['url']) }}" target="{{ esc_attr($buttonPrimary['target'] ?: '_self') }}" @if(($buttonPrimary['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group min-h-[54px] w-full gap-4 rounded-[8px] px-7 text-[14px] font-bold btn-primary-dark sm:w-auto sm:min-w-[220px] lg:min-h-[56px] lg:px-8 lg:text-[15px]"><span class="relative z-10">{{ $buttonPrimary['title'] }}</span><svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
                             @endif
                             @if($buttonSecondary)
-                                <a href="{{ $buttonSecondary['url'] }}" target="{{ $buttonSecondary['target'] ?: '_self' }}" @if(($buttonSecondary['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="group relative isolate inline-flex min-h-[54px] w-full items-center justify-center gap-4 overflow-hidden rounded-[8px] border border-white/40 bg-white/[0.03] px-7 text-[14px] font-bold text-white backdrop-blur-sm transition-colors duration-300 before:absolute before:inset-0 before:z-0 before:origin-left before:scale-x-0 before:bg-white/10 before:content-[''] before:transition-transform before:duration-300 before:ease-out hover:border-brand hover:before:scale-x-100 sm:w-auto sm:min-w-[240px] lg:min-h-[56px] lg:px-8 lg:text-[15px]"><span class="relative z-10">{{ $buttonSecondary['title'] }}</span><svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+                                <a href="{{ esc_url($buttonSecondary['url']) }}" target="{{ esc_attr($buttonSecondary['target'] ?: '_self') }}" @if(($buttonSecondary['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-light-outline group min-h-[54px] w-full gap-4 rounded-[8px] border border-white/40 bg-white/[0.03] px-7 text-[14px] font-bold backdrop-blur-sm hover:border-brand sm:w-auto sm:min-w-[240px] lg:min-h-[56px] lg:px-8 lg:text-[15px]"><span class="relative z-10">{{ $buttonSecondary['title'] }}</span><svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
                             @endif
                         </div>
                     @endif
@@ -151,15 +134,8 @@
         <span id="{{ $scrollTargetId }}" class="pointer-events-none absolute bottom-0 left-0 h-px w-px" aria-hidden="true"></span>
 
         @if(!$isEditor)
-            <a
-                href="#{{ $scrollTargetId }}"
-                @click.prevent="scrollBelowHero()"
-                class="home-hero-scroll group absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2 text-white sm:bottom-8"
-                aria-label="{{ esc_attr__('Przewiń do następnej sekcji', 'appandsite') }}"
-            >
-                <span class="text-[10px] font-bold uppercase tracking-[0.24em] text-white/90 transition-colors duration-300 group-hover:text-brand sm:text-[11px]">
-                    SCROLL
-                </span>
+            <a href="#{{ $scrollTargetId }}" @click.prevent="scrollBelowHero()" class="home-hero-scroll group absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2 text-white sm:bottom-8" aria-label="{{ esc_attr__('SCROLL — przewiń do następnej sekcji', 'appandsite') }}" >
+                <span class="text-[10px] font-bold uppercase tracking-[0.24em] text-white/90 transition-colors duration-300 group-hover:text-brand sm:text-[11px]">SCROLL</span>
 
                 <span class="home-hero-scroll-ring flex h-[44px] w-[44px] items-center justify-center rounded-full border border-brand/75 bg-primary-dark/55 text-brand backdrop-blur-sm transition-colors duration-300 group-hover:bg-brand group-hover:text-primary-dark">
                     <svg class="home-hero-scroll-arrow h-[21px] w-[21px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">

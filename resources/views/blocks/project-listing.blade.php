@@ -69,7 +69,7 @@
                                 @if(!empty($feature['icon']['ID']))
                                     <div class="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full bg-brand/10 transition-transform duration-500 ease-out group-hover:scale-110 lg:h-[62px] lg:w-[62px]">
                                         {!! wp_get_attachment_image($feature['icon']['ID'], 'thumbnail', false, [
-                                            'class' => 'h-[30px] w-[30px] object-contain transition-transform duration-700 ease-out group-hover:rotate-[8deg] lg:h-[32px] lg:w-[32px]',
+                                            'class' => 'icon-tilt h-[30px] w-[30px] object-contain lg:h-[32px] lg:w-[32px]',
                                             'alt' => '',
                                             'aria-hidden' => 'true',
                                             'loading' => 'lazy',
@@ -81,8 +81,8 @@
                                 <div class="min-w-0 flex-1">
                                     @if(!empty($feature['title']))
                                         <div class="relative inline-block max-w-full pb-[5px]">
-                                            <h6 class="m-0">{{ $feature['title'] }}</h6>
-                                            <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                                            <p class="heading-6 m-0">{{ $feature['title'] }}</p>
+                                            <span aria-hidden="true" class="hover-underline"></span>
                                         </div>
                                     @endif
 
@@ -178,9 +178,9 @@
 
                                     <div class="relative mb-3 w-full min-w-0 pb-[5px]">
                                         <a href="{{ esc_url($project['url']) }}" class="block w-full cursor-pointer text-primary no-underline hover:text-primary hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
-                                            <h5 class="m-0 w-full max-w-none text-wrap text-primary">{{ $project['title'] }}</h5>
+                                            <h3 class="heading-5 m-0 w-full max-w-none text-wrap text-primary">{{ $project['title'] }}</h3>
                                         </a>
-                                        <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover/card:scale-x-100"></span>
+                                        <span aria-hidden="true" class="hover-underline hover-underline-card"></span>
                                     </div>
 
                                     @if(!empty($project['excerpt']))

@@ -82,7 +82,7 @@
                                             @if(!empty($item['icon']['ID']))
                                                 <div class="flex h-[58px] w-[58px] shrink-0 items-center justify-center rounded-full bg-brand/10 transition-transform duration-500 ease-out group-hover:scale-110 sm:h-[62px] sm:w-[62px]">
                                                     {!! wp_get_attachment_image($item['icon']['ID'], 'thumbnail', false, [
-                                                        'class' => 'h-[30px] w-[30px] object-contain transition-transform duration-700 ease-out group-hover:rotate-[8deg] sm:h-[32px] sm:w-[32px]',
+                                                        'class' => 'icon-tilt h-[30px] w-[30px] object-contain sm:h-[32px] sm:w-[32px]',
                                                         'alt' => '',
                                                         'aria-hidden' => 'true',
                                                         'loading' => 'lazy',
@@ -93,8 +93,8 @@
                                             <div class="min-w-0 flex-1">
                                                 @if(!empty($item['title']))
                                                     <div class="relative inline-block max-w-full pb-[5px]">
-                                                        <h4 class="m-0">{{ $item['title'] }}</h4>
-                                                        <span class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                                                        <h3 class="heading-4 m-0">{{ $item['title'] }}</h3>
+                                                        <span class="hover-underline"></span>
                                                     </div>
                                                 @endif
                                                 @if(!empty($item['description']))
@@ -118,7 +118,7 @@
                                             @if(!empty($item['icon']['ID']))
                                                 <div class="flex h-[62px] w-[62px] shrink-0 items-center justify-center rounded-full bg-brand/10 transition-transform duration-500 ease-out group-hover:scale-110">
                                                     {!! wp_get_attachment_image($item['icon']['ID'], 'thumbnail', false, [
-                                                        'class' => 'h-[32px] w-[32px] object-contain transition-transform duration-700 ease-out group-hover:rotate-[8deg]',
+                                                        'class' => 'icon-tilt h-[32px] w-[32px] object-contain',
                                                         'alt' => '',
                                                         'aria-hidden' => 'true',
                                                         'loading' => 'lazy',
@@ -129,8 +129,8 @@
                                             <div class="min-w-0 flex-1">
                                                 @if(!empty($item['title']))
                                                     <div class="relative inline-block max-w-full pb-[5px]">
-                                                        <h4 class="m-0">{{ $item['title'] }}</h4>
-                                                        <span class="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
+                                                        <h3 class="heading-4 m-0">{{ $item['title'] }}</h3>
+                                                        <span class="hover-underline"></span>
                                                     </div>
                                                 @endif
                                                 @if(!empty($item['description']))

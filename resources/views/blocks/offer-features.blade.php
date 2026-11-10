@@ -61,15 +61,7 @@
                 <div class="grid grid-cols-1 items-start gap-y-8 lg:grid-cols-[45%_45%] lg:justify-between">
                     <div class="min-w-0 self-start">
                         @if(!empty($prefix))
-                            <div
-                                @if(!$isEditor)
-                                    data-aos="fade-right"
-                                    data-aos-duration="500"
-                                    data-aos-once="true"
-                                    data-aos-easing="ease-out-cubic"
-                                @endif
-                                class="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-[12px]"
-                            >
+                            <div @if(!$isEditor) data-aos="fade-right" data-aos-duration="500" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-[12px]" >
                                 <span class="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[6px] border border-brand/60 bg-brand/10 text-brand">
                                     <svg class="h-[13px] w-[13px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                         <path d="M12 3L13.6 8.4L19 10L13.6 11.6L12 17L10.4 11.6L5 10L10.4 8.4L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
@@ -82,31 +74,13 @@
                         @endif
 
                         @if(!empty($titleHtml))
-                            <h2
-                                @if(!$isEditor)
-                                    data-aos="fade-up"
-                                    data-aos-duration="650"
-                                    data-aos-delay="80"
-                                    data-aos-once="true"
-                                    data-aos-easing="ease-out-cubic"
-                                @endif
-                                class="!m-0 w-full"
-                            >
+                            <h2 @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="80" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="!m-0 w-full" >
                                 {!! $titleHtml !!}
                             </h2>
                         @endif
 
                         @if(!empty($descriptionHtml))
-                            <div
-                                @if(!$isEditor)
-                                    data-aos="fade-up"
-                                    data-aos-duration="650"
-                                    data-aos-delay="150"
-                                    data-aos-once="true"
-                                    data-aos-easing="ease-out-cubic"
-                                @endif
-                                class="wysiwyg mt-5 w-full [&_p]:!m-0 [&_p+p]:!mt-4"
-                            >
+                            <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="150" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="wysiwyg mt-5 w-full [&_p]:!m-0 [&_p+p]:!mt-4" >
                                 {!! $descriptionHtml !!}
                             </div>
                         @endif
@@ -115,16 +89,7 @@
                             <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:mt-9">
                                 @foreach($features as $feature)
                                     @if(!empty($feature['text']))
-                                        <div
-                                            @if(!$isEditor)
-                                                data-aos="fade-up"
-                                                data-aos-duration="650"
-                                                data-aos-delay="{{ $loop->index * 90 }}"
-                                                data-aos-once="true"
-                                                data-aos-easing="ease-out-cubic"
-                                            @endif
-                                            class="min-w-0"
-                                        >
+                                        <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="{{ $loop->index * 90 }}" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="min-w-0" >
                                             <div class="relative flex min-h-[66px] items-center gap-4 rounded-[16px] border border-border bg-white/95 px-4 py-3 shadow-card-soft transition-[box-shadow,border-color,background-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/45 hover:bg-white hover:shadow-card-hover sm:px-5">
                                                 <span class="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
                                                     <svg class="h-[19px] w-[19px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -144,16 +109,7 @@
                     </div>
 
                     @if(!empty($image['ID']))
-                        <div
-                            @if(!$isEditor)
-                                data-aos="fade-left"
-                                data-aos-duration="750"
-                                data-aos-delay="100"
-                                data-aos-once="true"
-                                data-aos-easing="ease-out-cubic"
-                            @endif
-                            class="group/image w-full min-w-0 self-start"
-                        >
+                        <div @if(!$isEditor) data-aos="fade-left" data-aos-duration="750" data-aos-delay="100" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="group/image w-full min-w-0 self-start" >
                             <div class="overflow-hidden rounded-[16px] border border-border bg-white/95 shadow-card-soft transition-[box-shadow,border-color,background-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/image:border-brand/45 group-hover/image:bg-white group-hover/image:shadow-card-hover">
                                 {!! wp_get_attachment_image(
                                     $image['ID'],

@@ -48,7 +48,7 @@
 
     /* Fonts */
     --font-sans: 'Manrope', sans-serif;
-    --font-manrope: 'Manrope', sans-serif;
+    --font-manrope: var(--font-sans);
     --font-caveat: 'Caveat', cursive;
 }
 
@@ -65,7 +65,7 @@
     }
 
     html {
-        font-family: 'Manrope', sans-serif;
+        font-family: var(--font-sans);
 
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -81,7 +81,7 @@
         background-color: #ffffff;
         color: var(--color-text);
 
-        font-family: 'Manrope', sans-serif;
+        font-family: var(--font-sans);
 
         font-size: 16px;
         font-weight: 400;
@@ -102,12 +102,18 @@
     h3,
     h4,
     h5,
-    h6 {
+    h6,
+    .heading-1,
+    .heading-2,
+    .heading-3,
+    .heading-4,
+    .heading-5,
+    .heading-6 {
         margin: 0;
 
         color: var(--color-primary);
 
-        font-family: 'Manrope', sans-serif;
+        font-family: var(--font-sans);
         font-weight: 700;
 
         letter-spacing: -0.035em;
@@ -115,32 +121,38 @@
         text-wrap: balance;
     }
 
-    h1 {
+    h1,
+    .heading-1 {
         font-size: clamp(2.5rem, 4vw, 4rem);
         line-height: 1.05;
     }
 
-    h2 {
+    h2,
+    .heading-2 {
         font-size: clamp(2rem, 3vw, 3rem);
         line-height: 1.1;
     }
 
-    h3 {
+    h3,
+    .heading-3 {
         font-size: clamp(1.625rem, 2.2vw, 2.25rem);
         line-height: 1.15;
     }
 
-    h4 {
+    h4,
+    .heading-4 {
         font-size: clamp(1.375rem, 1.6vw, 1.75rem);
         line-height: 1.25;
     }
 
-    h5 {
+    h5,
+    .heading-5 {
         font-size: clamp(1.125rem, 1.2vw, 1.375rem);
         line-height: 1.35;
     }
 
-    h6 {
+    h6,
+    .heading-6 {
         font-size: 1rem;
         line-height: 1.4;
     }
@@ -666,11 +678,11 @@
 
         color: var(--color-text);
 
-        font-family: 'Manrope', sans-serif;
+        font-family: var(--font-sans);
     }
 
     .prose :where(h1, h2, h3, h4, h5, h6) {
-        font-family: 'Manrope', sans-serif;
+        font-family: var(--font-sans);
 
         letter-spacing: -0.03em;
     }
@@ -771,37 +783,108 @@
 
         padding: 0 24px;
 
-        font-family: 'Manrope', sans-serif;
+        font-family: var(--font-sans);
 
         font-size: 0.9375rem;
         font-weight: 700;
         line-height: 1;
 
-        transition:
-            background-color 200ms ease,
-            color 200ms ease,
-            border-color 200ms ease,
-            box-shadow 200ms ease,
-            transform 200ms ease;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        transition: color 300ms ease-out, border-color 300ms ease-out;
     }
 
-    .btn:hover {
-        transform: translateY(-2px);
+    .btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background: var(--btn-fill, var(--color-brand-active));
+        scale: 0 1;
+        transform-origin: left;
+        transition: scale 300ms ease-out;
+        pointer-events: none;
+    }
+
+    .btn > span,
+    .btn > svg,
+    .btn > input {
+        position: relative;
+        z-index: 1;
+    }
+
+    .btn:hover::before,
+    .btn:focus-visible::before,
+    .btn:has(:focus-visible)::before {
+        scale: 1 1;
+    }
+
+    .btn svg {
+        transition: translate 300ms ease-out;
+    }
+
+    .btn:hover svg,
+    .btn:focus-visible svg,
+    .btn:has(:focus-visible) svg {
+        translate: 4px 0;
+    }
+
+    .btn:focus-visible,
+    .btn:has(:focus-visible) {
+        outline: 2px solid var(--color-brand);
+        outline-offset: 4px;
+    }
+
+    .btn:active {
+        opacity: .9;
+    }
+
+    .btn:disabled,
+    .btn[aria-disabled='true'] {
+        pointer-events: none;
+        opacity: .5;
     }
 
     .btn-primary {
+        --btn-fill: var(--color-brand-active);
         background-color: var(--color-brand);
-
         color: var(--color-primary);
     }
 
-    .btn-primary:hover {
-        background-color: var(--color-brand-active);
+    .btn-primary-dark {
+        color: var(--color-primary-dark);
+    }
 
+    .btn-primary:hover,
+    .btn-primary:focus-visible,
+    .btn-primary:has(:focus-visible) {
         color: #ffffff;
     }
 
+    .btn-light-outline {
+        --btn-fill: rgb(255 255 255 / .1);
+        color: #ffffff;
+    }
+
+    .btn-light-outline:hover,
+    .btn-light-outline:focus-visible {
+        border-color: var(--color-brand);
+    }
+
+    .btn-brand-outline {
+        --btn-fill: var(--color-brand);
+        color: #ffffff;
+    }
+
+    .btn-brand-outline:hover,
+    .btn-brand-outline:focus-visible {
+        border-color: var(--color-brand);
+        color: var(--color-primary);
+    }
+
     .btn-outline {
+        --btn-fill: var(--color-brand);
         border-color: var(--color-border);
 
         background-color: transparent;
@@ -809,22 +892,33 @@
         color: var(--color-primary);
     }
 
-    .btn-outline:hover {
+    .btn-outline:hover,
+    .btn-outline:focus-visible {
         border-color: var(--color-brand);
 
-        color: var(--color-brand-active);
+        color: var(--color-primary);
     }
 
     .btn-dark {
+        --btn-fill: var(--color-primary-light);
         background-color: var(--color-primary);
 
         color: #ffffff;
     }
 
     .btn-dark:hover {
-        background-color: var(--color-primary-light);
-
         color: #ffffff;
+    }
+
+    .btn-dark-brand {
+        --btn-fill: var(--color-brand);
+        background-color: var(--color-primary);
+        color: #ffffff;
+    }
+
+    .btn-dark-brand:hover,
+    .btn-dark-brand:focus-visible {
+        color: var(--color-primary);
     }
 
 
@@ -978,11 +1072,13 @@
         padding: 11px 12px;
     }
 
-    .btn {
-        min-height: 50px;
+    @layer components {
+        .btn {
+            min-height: 50px;
 
-        padding-right: 20px;
-        padding-left: 20px;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
     }
 }
 
@@ -996,26 +1092,32 @@
         font-size: 16px;
     }
 
-    h1 {
+    h1,
+    .heading-1 {
         font-size: clamp(2.25rem, 10vw, 3rem);
 
         letter-spacing: -0.04em;
     }
 
-    h2 {
+    h2,
+    .heading-2 {
         font-size: clamp(1.875rem, 8vw, 2.5rem);
     }
 
-    h3 {
+    h3,
+    .heading-3 {
         font-size: clamp(1.5rem, 7vw, 2rem);
     }
 
-    h4 {
+    h4,
+    .heading-4 {
         font-size: 1.375rem;
     }
 
-    h5 {
+    h5,
+    .heading-5 {
         font-size: 1.125rem;
+        line-height: 1.35;
     }
 
     p {
@@ -1080,13 +1182,15 @@
         padding: 10px 12px;
     }
 
-    .btn {
-        min-height: 48px;
+    @layer components {
+        .btn {
+            min-height: 48px;
 
-        padding-right: 18px;
-        padding-left: 18px;
+            padding-right: 18px;
+            padding-left: 18px;
 
-        font-size: 0.875rem;
+            font-size: 0.875rem;
+        }
     }
 
     .font-hand,
@@ -1439,4 +1543,53 @@
     .glightbox-container.appandsite-about-gallery-lightbox .gslide-description {
         display: none !important;
     }
+}
+@layer components {
+    .transition-icon {
+        transition-property: transform, translate, scale, rotate, color, background-color;
+        transition-duration: 300ms;
+        transition-timing-function: ease-out;
+    }
+
+    .icon-tilt {
+        transition: rotate 700ms ease-out, scale 700ms ease-out, background-color 700ms ease-out;
+    }
+
+    :is([class~='group'], [class~='group/card'], [class~='group/social']):hover .icon-tilt {
+        rotate: 8deg;
+    }
+
+    .hover-underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        border-radius: 9999px;
+        background-color: var(--color-brand);
+        scale: 0 1;
+        transform-origin: left;
+        transition: scale 500ms ease-out;
+        pointer-events: none;
+    }
+
+    [class~='group']:is(:hover, :focus-within) .hover-underline:not(.hover-underline-title):not(.hover-underline-card),
+    [class~='group/title']:is(:hover, :focus-within) .hover-underline-title,
+    [class~='group/card']:is(:hover, :focus-within) .hover-underline-card {
+        scale: 1 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn, .btn::before, .btn svg, .icon-tilt, .hover-underline {
+        transition: none !important;
+    }
+}
+
+.steps-dots .steps-dot:nth-child(17) { animation-delay: 1920ms; }
+
+.steps-dots .steps-dot:nth-child(18) { animation-delay: 2040ms; }
+
+@media (max-width: 767.98px) {
+    .heading-6 { font-size: 1rem; line-height: 1.4; }
 }
