@@ -188,7 +188,7 @@
                                         @if($button['external'])
                                             <svg class="relative z-10 h-[16px] w-[16px] shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 5H19V11M19 5L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><path d="M19 14V18C19 18.5523 18.5523 19 18 19H6C5.44772 19 5 18.5523 5 18V6C5 5.44772 5.44772 5 6 5H10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                                         @else
-                                            <svg class="relative z-10 h-[16px] w-[16px] shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                                            <x-ui.arrow />
                                         @endif
                                     </a>
                                 @endforeach

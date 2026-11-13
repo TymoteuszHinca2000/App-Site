@@ -55,11 +55,9 @@
 
                         @if(!empty($button['url']) && !empty($button['title']))
                             <div @if(!$isEditor) data-aos="fade-left" data-aos-duration="650" data-aos-delay="160" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="shrink-0">
-                                <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target'] ?? '_self') }}" @if(($button['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="inline-flex min-h-[48px] items-center justify-center gap-3 rounded-[8px] border border-brand/70 bg-white px-6 text-[13px] font-bold text-primary transition-[background-color,border-color,color] duration-500 ease-out hover:border-brand hover:bg-brand hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target'] ?? '_self') }}" @if(($button['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-outline btn-outline-brand min-h-[48px] gap-3 px-6 text-[13px] font-bold">
                                     <span>{{ $button['title'] }}</span>
-                                    <svg class="h-[16px] w-[16px] shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <x-ui.arrow class="h-[16px] w-[16px] shrink-0" />
                                 </a>
                             </div>
                         @endif
@@ -148,9 +146,7 @@
                                                             {{ $readMoreText }}
                                                             <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-current"></span>
                                                         </span>
-                                                        <svg class="h-[17px] w-[17px] shrink-0 text-brand" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                                            <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
+                                                        <x-ui.arrow class="h-[17px] w-[17px] shrink-0 text-brand" />
                                                     </a>
 
                                                     <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] text-muted sm:text-[12px]">
@@ -170,15 +166,11 @@
 
                         @if($useSlider)
                             <div class="mt-5 flex items-center justify-end gap-3">
-                                <button type="button" x-ref="prev" aria-label="{{ esc_attr__('Poprzedni artykuł', 'appandsite') }}" class="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-border bg-white text-primary transition-[border-color,background-color,opacity] duration-500 ease-out hover:border-brand hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand [&.swiper-button-disabled]:pointer-events-none [&.swiper-button-disabled]:opacity-30">
-                                    <svg class="h-[17px] w-[17px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                <button type="button" x-ref="prev" aria-label="{{ esc_attr__('Poprzedni artykuł', 'appandsite') }}" class="btn btn-outline slider-arrow">
+                                    <x-ui.arrow direction="left" class="h-[17px] w-[17px]" />
                                 </button>
-                                <button type="button" x-ref="next" aria-label="{{ esc_attr__('Następny artykuł', 'appandsite') }}" class="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-border bg-white text-primary transition-[border-color,background-color,opacity] duration-500 ease-out hover:border-brand hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand [&.swiper-button-disabled]:pointer-events-none [&.swiper-button-disabled]:opacity-30">
-                                    <svg class="h-[17px] w-[17px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                <button type="button" x-ref="next" aria-label="{{ esc_attr__('Następny artykuł', 'appandsite') }}" class="btn btn-outline slider-arrow">
+                                    <x-ui.arrow class="h-[17px] w-[17px]" />
                                 </button>
                             </div>
                         @endif

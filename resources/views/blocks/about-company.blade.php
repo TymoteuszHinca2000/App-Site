@@ -54,7 +54,7 @@
 
                     @if(!empty($button['url']) && !empty($button['title']))
                         <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="220" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mt-7">
-                            <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target'] ?: '_self') }}" @if(($button['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-dark-brand group min-h-[52px] gap-4 rounded-[8px] px-7 text-[14px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"><span class="relative z-10">{{ $button['title'] }}</span><svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                            <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target'] ?: '_self') }}" @if(($button['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-dark-brand group min-h-[52px] gap-4 rounded-[8px] px-7 text-[14px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"><span class="relative z-10">{{ $button['title'] }}</span><x-ui.arrow /></a>
                         </div>
                     @endif
                 </div>

@@ -65,9 +65,7 @@
         <div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-4">
             <a href="{{ esc_url($featuredPost['url']) }}" class="btn btn-primary group/btn min-h-[48px] gap-3 rounded-[8px] px-6 text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:min-h-[52px] sm:px-7 sm:text-[14px]">
                 <span class="relative z-10">{{ $featuredButtonText }}</span>
-                <svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+                <x-ui.arrow />
             </a>
 
             <span class="inline-flex items-center gap-2 text-[12px] text-white/80 sm:text-[13px]">

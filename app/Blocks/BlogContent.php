@@ -2,6 +2,7 @@
 
 namespace App\Blocks;
 
+use App\Support\Collaborations;
 use Log1x\AcfComposer\Block;
 use Log1x\AcfComposer\Builder;
 
@@ -46,6 +47,10 @@ class BlogContent extends Block
             'tocTitle' => get_field('toc_title') ?: __('Spis treści', 'appandsite'),
             'tocItems' => get_field('toc_items') ?: [],
             'sidebarCards' => get_field('sidebar_cards') ?: [],
+            'collaborations' => array_values(array_filter(
+                Collaborations::all(),
+                static fn (array $item): bool => $item['sidebar_logo_id'] > 0 || $item['sidebar_title'] !== '' || trim(wp_strip_all_tags($item['sidebar_description'])) !== ''
+            )),
             'sections' => get_field('sections') ?: [],
             'showNavigation' => (bool) get_field('show_navigation'),
         ];

@@ -219,9 +219,7 @@
 
                                         </span>
 
-                                        <svg class="h-[18px] w-[18px] shrink-0 text-brand" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                                            <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+                                        <x-ui.arrow class="h-[18px] w-[18px] shrink-0 text-brand" />
 
                                     </a>
 
@@ -240,39 +238,8 @@
                     <nav aria-label="{{ esc_attr__('Paginacja ofert', 'appandsite') }}" class="mt-10 flex justify-center lg:mt-12" >
 
                         @php
-                            $prevIcon = '
-                                <svg
-                                    class="h-[18px] w-[18px]"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M19 12H5M11 6L5 12L11 18"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                </svg>
-                            ';
-
-                            $nextIcon = '
-                                <svg
-                                    class="h-[18px] w-[18px]"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M5 12H19M13 6L19 12L13 18"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                </svg>
-                            ';
+                            $prevIcon = \Illuminate\Support\Facades\Blade::render('<x-ui.arrow direction="left" />');
+                            $nextIcon = \Illuminate\Support\Facades\Blade::render('<x-ui.arrow />');
 
                             $pagination = paginate_links([
                                 'base' => $paginationBase,
@@ -294,21 +261,16 @@
                                 @foreach($pagination as $pageLink)
 
                                     @php
-                                        $isCurrent = str_contains(
-                                            $pageLink,
-                                            'current'
-                                        );
+                                        $isCurrent = str_contains($pageLink, 'aria-current="page"');
+                                        $isDots = str_contains($pageLink, 'dots');
 
-                                        $pageLink = str_replace(
-                                            'page-numbers',
-                                            'page-numbers inline-flex h-[42px] min-w-[42px] items-center justify-center rounded-[8px] border px-3 text-[14px] font-semibold transition-[border-color,background-color,color] duration-300 ' .
-                                            (
-                                                $isCurrent
-                                                    ? 'border-brand bg-brand text-primary'
-                                                    : 'border-border bg-white text-primary hover:border-brand hover:text-brand'
-                                            ),
-                                            $pageLink
-                                        );
+                                        if (!$isDots) {
+                                            $pageLink = str_replace('page-numbers', 'page-numbers btn btn-page ' . ($isCurrent ? 'btn-primary' : 'btn-outline'), $pageLink);
+
+                                            if (!str_contains($pageLink, 'ui-arrow')) {
+                                                $pageLink = preg_replace('/>([^<]+)<\/(a|span)>$/', '><span>$1</span></$2>', $pageLink);
+                                            }
+                                        }
                                     @endphp
 
                                     {!! $pageLink !!}

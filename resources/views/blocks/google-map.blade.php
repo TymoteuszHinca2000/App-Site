@@ -116,10 +116,10 @@
                                         </span>
                                     </div>
                                     <div class="pointer-events-auto flex shrink-0 flex-col gap-2">
-                                        <button type="button" @click="zoom(1)" aria-label="{{ esc_attr__('Powiększ mapę', 'appandsite') }}" class="flex h-10 w-10 items-center justify-center rounded-[9px] border border-white/80 bg-white/95 text-primary shadow-card-soft transition-colors duration-300 hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                        <button type="button" @click="zoom(1)" aria-label="{{ esc_attr__('Powiększ mapę', 'appandsite') }}" class="btn btn-outline btn-icon rounded-[9px] bg-white/95 shadow-card-soft">
                                             <svg class="h-[17px] w-[17px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
                                         </button>
-                                        <button type="button" @click="zoom(-1)" aria-label="{{ esc_attr__('Pomniejsz mapę', 'appandsite') }}" class="flex h-10 w-10 items-center justify-center rounded-[9px] border border-white/80 bg-white/95 text-primary shadow-card-soft transition-colors duration-300 hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                        <button type="button" @click="zoom(-1)" aria-label="{{ esc_attr__('Pomniejsz mapę', 'appandsite') }}" class="btn btn-outline btn-icon rounded-[9px] bg-white/95 shadow-card-soft">
                                             <svg class="h-[17px] w-[17px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
                                         </button>
                                     </div>
@@ -162,7 +162,7 @@
                                 @if($showDirectionsButton)
                                     <a href="{{ esc_url($directionsUrl) }}" target="{{ esc_attr($directionsTarget) }}" @if($directionsTarget === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group min-h-[46px] shrink-0 gap-3 rounded-[8px] px-5 text-[13px] font-bold no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                         <span class="relative z-10">{{ $directionsTitle }}</span>
-                                        <svg class="relative z-10 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                                        <x-ui.arrow />
                                     </a>
                                 @endif
                             </div>

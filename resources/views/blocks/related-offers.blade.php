@@ -279,15 +279,13 @@
 
                     <div @if(!$isEditor) data-aos="fade-left" data-aos-duration="650" data-aos-delay="160" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="shrink-0" >
 
-                        <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target'] ?: '_self') }}" @if(($button['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="group inline-flex min-h-[48px] items-center justify-center gap-3 rounded-[8px] border border-brand/70 bg-white px-6 text-[13px] font-bold text-primary transition-[background-color,border-color,color] duration-300 hover:border-brand hover:bg-brand hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-brand" >
+                        <a href="{{ esc_url($button['url']) }}" target="{{ esc_attr($button['target'] ?: '_self') }}" @if(($button['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-outline btn-outline-brand min-h-[48px] gap-3 px-6 text-[13px] font-bold" >
 
                             <span>
                                 {{ $button['title'] }}
                             </span>
 
-                            <svg class="h-[16px] w-[16px] shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                                <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                            <x-ui.arrow class="h-[16px] w-[16px] shrink-0" />
 
                         </a>
 
@@ -373,9 +371,7 @@
 
                                         </span>
 
-                                        <svg class="h-[18px] w-[18px] shrink-0 text-brand" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                                            <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+                                        <x-ui.arrow class="h-[18px] w-[18px] shrink-0 text-brand" />
 
                                     </a>
 
@@ -466,9 +462,7 @@
 
                                                     </span>
 
-                                                    <svg class="h-[18px] w-[18px] shrink-0 text-brand" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                                                        <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
+                                                    <x-ui.arrow class="h-[18px] w-[18px] shrink-0 text-brand" />
 
                                                 </a>
 
@@ -489,19 +483,15 @@
 
                             <div class="mt-5 flex items-center justify-end gap-3" >
 
-                                <button type="button" x-ref="prev" aria-label="{{ __('Poprzednia oferta', 'appandsite') }}" class="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-border bg-white text-primary transition-[border-color,background-color,color,opacity] duration-300 hover:border-brand hover:bg-brand disabled:pointer-events-none disabled:opacity-30" >
+                                <button type="button" x-ref="prev" aria-label="{{ __('Poprzednia oferta', 'appandsite') }}" class="btn btn-outline slider-arrow" >
 
-                                    <svg class="h-[17px] w-[17px]" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                                        <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <x-ui.arrow direction="left" class="h-[17px] w-[17px]" />
 
                                 </button>
 
-                                <button type="button" x-ref="next" aria-label="{{ __('Następna oferta', 'appandsite') }}" class="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-border bg-white text-primary transition-[border-color,background-color,color,opacity] duration-300 hover:border-brand hover:bg-brand disabled:pointer-events-none disabled:opacity-30" >
+                                <button type="button" x-ref="next" aria-label="{{ __('Następna oferta', 'appandsite') }}" class="btn btn-outline slider-arrow" >
 
-                                    <svg class="h-[17px] w-[17px]" viewBox="0 0 24 24" fill="none" aria-hidden="true" >
-                                        <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <x-ui.arrow class="h-[17px] w-[17px]" />
 
                                 </button>
 

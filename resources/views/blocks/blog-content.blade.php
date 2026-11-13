@@ -167,6 +167,15 @@
                         </div>
                     @endif
 
+                    @if(!empty($collaborations))
+                        <section class="collaborations-stack mt-4" aria-label="{{ esc_attr__('Współprace', 'appandsite') }}">
+                            <h2 class="sr-only">{{ __('Współprace', 'appandsite') }}</h2>
+                            @foreach($collaborations as $collaboration)
+                                @include('partials.collaboration-card', ['collaboration' => $collaboration, 'compact' => true, 'isEditor' => $isEditor])
+                            @endforeach
+                        </section>
+                    @endif
+
                     @if(!empty($sidebarCards))
                         <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
                             @foreach($sidebarCards as $card)
@@ -194,7 +203,7 @@
 
                                     <div class="mt-4 flex flex-col items-start gap-2">
                                         @if(!empty($card['copy_url']))
-                                            <button type="button" @if(!$isEditor) @click="copyUrl(@js($card['copy_url']), {{ $loop->index }})" @endif class="inline-flex min-h-10 items-center gap-2 rounded-[8px] border border-brand/35 bg-white px-4 text-[12px] font-semibold text-brand-active transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                            <button type="button" @if(!$isEditor) @click="copyUrl(@js($card['copy_url']), {{ $loop->index }})" @endif class="btn btn-outline btn-outline-brand min-h-10 gap-2 px-4 text-[12px] font-semibold">
                                                 <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                     <rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8" />
                                                     <path d="M16 8V6C16 4.895 15.105 4 14 4H6C4.895 4 4 4.895 4 6V14C4 15.105 4.895 16 6 16H8" stroke="currentColor" stroke-width="1.8" />
@@ -206,9 +215,7 @@
                                         @if(!empty($card['button']['url']) && !empty($card['button']['title']))
                                             <a href="{{ esc_url($card['button']['url']) }}" target="{{ esc_attr($card['button']['target'] ?: '_self') }}" @if(($card['button']['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group/btn min-h-[46px] w-full gap-3 rounded-[8px] px-4 text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                                 <span class="relative z-10">{{ $card['button']['title'] }}</span>
-                                                <svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                                    <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
+                                                <x-ui.arrow />
                                             </a>
                                         @endif
                                     </div>
@@ -453,9 +460,7 @@
                                         @if(!empty($section['button']['url']) && !empty($section['button']['title']))
                                             <a href="{{ esc_url($section['button']['url']) }}" target="{{ esc_attr($section['button']['target'] ?: '_self') }}" @if(($section['button']['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group/btn min-h-[46px] shrink-0 gap-3 rounded-[8px] px-5 text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                                 <span class="relative z-10">{{ $section['button']['title'] }}</span>
-                                                <svg class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                                    <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
+                                                <x-ui.arrow />
                                             </a>
                                         @endif
                                     </div>
@@ -472,9 +477,7 @@
                         @if($previousPost)
                             <div class="group flex max-w-full flex-col items-start gap-2 text-left">
                                 <a href="{{ esc_url(get_permalink($previousPost->ID)) }}" class="inline-flex items-center gap-2 text-[12px] text-muted transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:text-[13px]">
-                                    <svg class="h-4 w-4 shrink-0 text-brand transition-transform duration-300 group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <x-ui.arrow direction="left" class="text-brand" />
                                     <span>{{ __('Poprzedni wpis', 'appandsite') }}</span>
                                 </a>
                                 <p class="heading-6 max-w-full">
@@ -492,9 +495,7 @@
                             <div class="group flex max-w-full flex-col items-end gap-2 text-right">
                                 <a href="{{ esc_url(get_permalink($nextPost->ID)) }}" class="inline-flex items-center gap-2 text-[12px] text-muted transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:text-[13px]">
                                     <span>{{ __('Następny wpis', 'appandsite') }}</span>
-                                    <svg class="h-4 w-4 shrink-0 text-brand transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
+                                    <x-ui.arrow class="text-brand" />
                                 </a>
                                 <p class="heading-6 max-w-full">
                                     <a href="{{ esc_url(get_permalink($nextPost->ID)) }}" class="group/title relative inline-block max-w-full pb-[6px] text-primary transition-colors duration-300 hover:text-brand-active focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
@@ -508,7 +509,7 @@
 
                     @if($blogUrl)
                         <div class="col-span-2 flex justify-center sm:-mt-10">
-                            <a href="{{ esc_url($blogUrl) }}" aria-label="{{ esc_attr__('Wszystkie wpisy blogowe', 'appandsite') }}" class="inline-flex h-10 w-10 items-center justify-center rounded-[7px] border border-border text-brand-active transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                            <a href="{{ esc_url($blogUrl) }}" aria-label="{{ esc_attr__('Wszystkie wpisy blogowe', 'appandsite') }}" class="btn btn-outline btn-icon rounded-[7px]">
                                 <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />
                                     <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8" />

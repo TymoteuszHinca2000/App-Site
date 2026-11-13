@@ -111,16 +111,12 @@
                         </div>
 
                         <div class="absolute right-4 top-4 z-20 flex items-center gap-2 sm:right-6 sm:top-6">
-                            <button type="button" x-ref="featuredPrev" aria-label="{{ esc_attr__('Poprzedni polecany artykuł', 'appandsite') }}" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/35 bg-primary-dark/70 text-white backdrop-blur-sm transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
-                                <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
+                            <button type="button" x-ref="featuredPrev" aria-label="{{ esc_attr__('Poprzedni polecany artykuł', 'appandsite') }}" class="btn btn-light-outline slider-arrow slider-arrow--overlay backdrop-blur-sm">
+                                <x-ui.arrow direction="left" />
                             </button>
 
-                            <button type="button" x-ref="featuredNext" aria-label="{{ esc_attr__('Następny polecany artykuł', 'appandsite') }}" class="flex h-10 w-10 items-center justify-center rounded-full border border-white/35 bg-primary-dark/70 text-white backdrop-blur-sm transition-[border-color,background-color,color] duration-500 ease-out hover:border-brand hover:bg-brand hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
-                                <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
+                            <button type="button" x-ref="featuredNext" aria-label="{{ esc_attr__('Następny polecany artykuł', 'appandsite') }}" class="btn btn-light-outline slider-arrow slider-arrow--overlay backdrop-blur-sm">
+                                <x-ui.arrow />
                             </button>
                         </div>
                     @else
@@ -151,30 +147,26 @@
                     </select>
 
                     <div class="hidden min-w-0 flex-1 items-center gap-2 md:flex">
-                        <button type="button" @if(!$isEditor) x-on:click="scrollCategories(-1)" x-bind:disabled="!canScrollPrev" @else disabled @endif aria-label="{{ esc_attr__('Przewiń kategorie w lewo', 'appandsite') }}" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] border border-border bg-white text-primary transition-[border-color,background-color,color,opacity] duration-300 ease-out hover:border-brand hover:bg-brand/10 hover:text-brand-active disabled:cursor-default disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-white">
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                        <button type="button" @if(!$isEditor) x-on:click="scrollCategories(-1)" x-bind:disabled="!canScrollPrev" @else disabled @endif aria-label="{{ esc_attr__('Przewiń kategorie w lewo', 'appandsite') }}" class="btn btn-outline btn-icon">
+                            <x-ui.arrow direction="left" class="h-4 w-4" />
                         </button>
 
                         <div x-ref="categoryTrack" class="relative min-w-0 flex-1 overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                             <div class="flex w-max min-w-full items-center gap-2">
-                                <a href="{{ esc_url($allCategoriesUrl) }}" @if($activeCategory === '') aria-current="page" x-ref="activeCategory" @endif class="inline-flex min-h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-[8px] border px-5 text-[13px] font-semibold transition-[border-color,background-color,color] duration-300 ease-out {{ $activeCategory === '' ? 'border-brand bg-brand text-primary' : 'border-border bg-surface text-primary hover:border-brand/50 hover:bg-brand/10 hover:text-brand-active' }}">
-                                    {{ $allCategoriesText }}
+                                <a href="{{ esc_url($allCategoriesUrl) }}" @if($activeCategory === '') aria-current="page" x-ref="activeCategory" @endif class="btn btn-filter {{ $activeCategory === '' ? 'btn-primary' : 'btn-outline btn-surface' }}">
+                                    <span>{{ $allCategoriesText }}</span>
                                 </a>
 
                                 @foreach($categories as $category)
-                                    <a href="{{ esc_url($category['url']) }}" @if($activeCategory === $category['slug']) aria-current="page" x-ref="activeCategory" @endif class="inline-flex min-h-10 shrink-0 items-center justify-center whitespace-nowrap rounded-[8px] border px-5 text-[13px] font-semibold transition-[border-color,background-color,color] duration-300 ease-out {{ $activeCategory === $category['slug'] ? 'border-brand bg-brand text-primary' : 'border-border bg-surface text-primary hover:border-brand/50 hover:bg-brand/10 hover:text-brand-active' }}">
-                                        {{ $category['name'] }}
+                                    <a href="{{ esc_url($category['url']) }}" @if($activeCategory === $category['slug']) aria-current="page" x-ref="activeCategory" @endif class="btn btn-filter {{ $activeCategory === $category['slug'] ? 'btn-primary' : 'btn-outline btn-surface' }}">
+                                        <span>{{ $category['name'] }}</span>
                                     </a>
                                 @endforeach
                             </div>
                         </div>
 
-                        <button type="button" @if(!$isEditor) x-on:click="scrollCategories(1)" x-bind:disabled="!canScrollNext" @else disabled @endif aria-label="{{ esc_attr__('Przewiń kategorie w prawo', 'appandsite') }}" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] border border-border bg-white text-primary transition-[border-color,background-color,color,opacity] duration-300 ease-out hover:border-brand hover:bg-brand/10 hover:text-brand-active disabled:cursor-default disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-white">
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                        <button type="button" @if(!$isEditor) x-on:click="scrollCategories(1)" x-bind:disabled="!canScrollNext" @else disabled @endif aria-label="{{ esc_attr__('Przewiń kategorie w prawo', 'appandsite') }}" class="btn btn-outline btn-icon">
+                            <x-ui.arrow class="h-4 w-4" />
                         </button>
                     </div>
                 </div>
@@ -223,9 +215,7 @@
                                     <div class="mt-auto flex flex-wrap items-end justify-between gap-x-3 gap-y-2 border-t border-border/70 pt-4">
                                         <a href="{{ esc_url($post['url']) }}" class="relative z-20 inline-flex w-fit cursor-pointer items-center gap-3 text-brand-active no-underline hover:text-brand-active hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
                                             <span class="border-b border-current pb-[2px] text-[13px] font-semibold sm:text-[14px]">{{ $postButtonText }}</span>
-                                            <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                                <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
+                                            <x-ui.arrow class="h-4 w-4 shrink-0" />
                                         </a>
 
                                         <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[11px] text-muted sm:text-[12px]">
@@ -250,10 +240,8 @@
             @if($maxPages > 1)
                 <nav class="mt-10 flex flex-wrap items-center justify-center gap-2 sm:mt-12" aria-label="{{ esc_attr__('Paginacja bloga', 'appandsite') }}">
                     @if($currentPage > 1)
-                        <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, $currentPage - 1, $activeCategory)) }}" rel="prev" aria-label="{{ esc_attr__('Poprzednia strona', 'appandsite') }}" class="flex h-10 w-10 items-center justify-center rounded-[8px] border border-border bg-white text-primary transition-[border-color,background-color,color] duration-300 hover:border-brand hover:bg-brand/10 hover:text-brand-active">
-                            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                        <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, $currentPage - 1, $activeCategory)) }}" rel="prev" aria-label="{{ esc_attr__('Poprzednia strona', 'appandsite') }}" class="btn btn-outline btn-icon">
+                            <x-ui.arrow direction="left" />
                         </a>
                     @endif
 
@@ -266,8 +254,8 @@
                             <span class="px-1 text-muted" aria-hidden="true">…</span>
                         @endif
 
-                        <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, $pageNumber, $activeCategory)) }}" @if($pageNumber === $currentPage) aria-current="page" @endif class="flex h-10 min-w-10 items-center justify-center rounded-[8px] border px-2 text-[13px] font-semibold transition-[border-color,background-color,color] duration-300 {{ $pageNumber === $currentPage ? 'border-brand bg-brand text-primary' : 'border-border bg-white text-primary hover:border-brand hover:bg-brand/10 hover:text-brand-active' }}">
-                            {{ $pageNumber }}
+                        <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, $pageNumber, $activeCategory)) }}" @if($pageNumber === $currentPage) aria-current="page" @endif class="btn btn-page {{ $pageNumber === $currentPage ? 'btn-primary' : 'btn-outline' }}">
+                            <span>{{ $pageNumber }}</span>
                         </a>
 
                         @php
@@ -276,10 +264,8 @@
                     @endforeach
 
                     @if($currentPage < $maxPages)
-                        <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, $currentPage + 1, $activeCategory)) }}" rel="next" aria-label="{{ esc_attr__('Następna strona', 'appandsite') }}" class="flex h-10 w-10 items-center justify-center rounded-[8px] border border-border bg-white text-primary transition-[border-color,background-color,color] duration-300 hover:border-brand hover:bg-brand/10 hover:text-brand-active">
-                            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+                        <a href="{{ esc_url(\App\appandsite_blog_page_url($pageId, $currentPage + 1, $activeCategory)) }}" rel="next" aria-label="{{ esc_attr__('Następna strona', 'appandsite') }}" class="btn btn-outline btn-icon">
+                            <x-ui.arrow />
                         </a>
                     @endif
                 </nav>

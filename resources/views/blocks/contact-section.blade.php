@@ -194,7 +194,7 @@
                                         </div>
 
                                         @if(!empty($item['copy']) && !$isEditor)
-                                            <button type="button" data-copy="{{ esc_attr($item['copy']) }}" x-on:click="copyText($el.dataset.copy, {{ $loop->index }})" x-bind:aria-label="copiedIndex === {{ $loop->index }} ? '{{ esc_attr__('Skopiowano', 'appandsite') }}' : '{{ esc_attr__('Kopiuj dane kontaktowe', 'appandsite') }}'" class="mt-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] text-brand-active transition-[background-color,transform] duration-300 ease-out hover:bg-brand/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+                                            <button type="button" data-copy="{{ esc_attr($item['copy']) }}" x-on:click="copyText($el.dataset.copy, {{ $loop->index }})" x-bind:aria-label="copiedIndex === {{ $loop->index }} ? '{{ esc_attr__('Skopiowano', 'appandsite') }}' : '{{ esc_attr__('Kopiuj dane kontaktowe', 'appandsite') }}'" class="btn btn-ghost btn-icon mt-2 h-9 min-h-9 w-9">
                                                 <svg x-show="copiedIndex !== {{ $loop->index }}" class="h-[17px] w-[17px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                                     <rect x="8" y="8" width="11" height="12" rx="2" stroke="currentColor" stroke-width="1.7" />
                                                     <path d="M16 8V6C16 4.89543 15.1046 4 14 4H6C4.89543 4 4 4.89543 4 6V15C4 16.1046 4.89543 17 6 17H8" stroke="currentColor" stroke-width="1.7" />
@@ -259,9 +259,7 @@
                                 @if($quickUrl !== '' && $quickLabel !== '')
                                     <a href="{{ esc_url($quickUrl) }}" target="{{ esc_attr($quickTarget) }}" @if($quickTarget === '_blank') rel="noopener noreferrer" @endif class="btn btn-brand-outline group/button min-h-[45px] w-full shrink-0 gap-3 rounded-[8px] border border-white/35 px-4 text-[12px] font-semibold hover:border-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto">
                                         <span class="relative z-10">{{ $quickLabel }}</span>
-                                        <svg class="relative z-10 h-[16px] w-[16px] shrink-0 transition-transform duration-300 group-hover/button:translate-x-1 motion-reduce:transition-none" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                            <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
+                                        <x-ui.arrow />
                                     </a>
                                 @endif
                             </div>
