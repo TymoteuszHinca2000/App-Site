@@ -31,7 +31,7 @@
 
         <div class="collaboration-card__content">
             @if(!$compact && !empty($collaboration['prefix']))
-                <p class="collaboration-card__prefix">{{ $collaboration['prefix'] }}</p>
+                <x-ui.section-prefix class="mb-3">{{ $collaboration['prefix'] }}</x-ui.section-prefix>
             @endif
 
             @if($compact && $sidebarLogoId)

@@ -41,7 +41,7 @@
             <div class="relative grid grid-cols-1 items-start gap-x-8 gap-y-8 md:grid-cols-2 md:items-stretch 2xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.98fr)_minmax(0,1.08fr)] 2xl:gap-x-8 2xl:gap-y-0">
                 <div class="relative z-30 flex min-w-0 flex-col items-start md:col-start-1 md:row-start-1">
                     @if(!empty($prefix))
-                        <div @if(!$isEditor) data-aos="fade-right" data-aos-duration="500" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-[12px]"><span class="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[6px] border border-brand/60 bg-brand/10 text-brand"><svg class="h-[13px] w-[13px]" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3L13.6 8.4L19 10L13.6 11.6L12 17L10.4 11.6L5 10L10.4 8.4L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M18.5 15.5L19.2 17.8L21.5 18.5L19.2 19.2L18.5 21.5L17.8 19.2L15.5 18.5L17.8 17.8L18.5 15.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span>{{ $prefix }}</span></div>
+                        <x-ui.section-prefix class="mb-5" :data-aos="$isEditor ? null : 'fade-right'" data-aos-duration="500" data-aos-once="true" data-aos-easing="ease-out-cubic">{{ $prefix }}</x-ui.section-prefix>
                     @endif
 
                     @if($titleHtml)

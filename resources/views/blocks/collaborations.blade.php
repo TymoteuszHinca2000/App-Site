@@ -30,7 +30,7 @@
                 @if(!empty($prefix) || $titleHtml !== '' || $descriptionHtml !== '')
                     <div class="collaborations__heading">
                         @if(!empty($prefix))
-                            <p class="collaborations__prefix"><span aria-hidden="true" class="collaborations__prefix-mark">✦</span>{{ $prefix }}</p>
+                            <x-ui.section-prefix class="mb-5">{{ $prefix }}</x-ui.section-prefix>
                         @endif
                         @if($titleHtml !== '')
                             <h2>{!! $titleHtml !!}</h2>

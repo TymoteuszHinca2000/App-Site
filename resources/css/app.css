@@ -1650,9 +1650,6 @@
 }
 
 .collaborations__heading { max-width: 850px; margin-bottom: 32px; }
-.collaborations__prefix { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; color: var(--color-muted); font-size: 0.6875rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.14em; text-transform: uppercase; }
-.collaborations__prefix-mark { display: flex; width: 24px; height: 24px; flex: 0 0 auto; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--color-brand) 60%, transparent); border-radius: 6px; background: color-mix(in srgb, var(--color-brand) 10%, transparent); color: var(--color-brand); font-size: 16px; font-weight: 400; line-height: 1; letter-spacing: 0; }
-.collaboration-card__prefix { display: inline-flex; max-width: 100%; margin: 0 0 12px; border-radius: 9999px; padding: 5px 10px; background: color-mix(in srgb, var(--color-brand) 16%, transparent); color: var(--color-primary); font-size: 0.6875rem; font-weight: 700; line-height: 1.4; letter-spacing: 0; text-transform: none; }
 .collaborations__description { max-width: 720px; margin-top: 16px; }
 .collaborations__viewport { overflow: hidden; width: 100%; padding: 4px; margin: -4px; box-sizing: content-box; }
 .collaborations__list { display: grid; gap: 24px; }
@@ -1719,10 +1716,6 @@
 .collaboration-card--compact .collaboration-card__button,
 .collaboration-card--compact .collaboration-card__discount { width: 100%; }
 .collaboration-card--compact .collaboration-card__copy-row { grid-template-columns: minmax(0, 1fr); }
-
-@media (min-width: 640px) {
-    .collaborations__prefix { font-size: 0.75rem; }
-}
 
 @media (max-width: 767.98px) {
     .collaboration-card__main { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 24px; }
