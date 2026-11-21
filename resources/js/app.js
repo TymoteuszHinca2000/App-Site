@@ -25,6 +25,7 @@ import './alpine/alpGoogleMap.js';
 import './alpine/alpContactSection.js';
 import './alpine/alpCollaborations.js';
 import './alpine/alpWhyAppSite.js';
+import './alpine/alpTeamStack.js';
 
 class App {
     constructor() {

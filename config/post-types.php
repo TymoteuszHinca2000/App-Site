@@ -77,6 +77,31 @@ return [
                 'not_found_in_trash' => 'Nie znaleziono projektów w koszu',
             ],
         ],
+        'team' => [
+            'menu_icon' => 'dashicons-groups',
+            'public' => true,
+            'has_archive' => false,
+            'show_in_rest' => true,
+            'supports' => ['title', 'editor', 'revisions', 'thumbnail', 'excerpt', 'page-attributes'],
+            'names' => [
+                'singular' => 'Pracownik',
+                'plural' => 'Pracownicy',
+                'slug' => 'zespol',
+            ],
+            'labels' => [
+                'menu_name' => 'Zespół',
+                'all_items' => 'Wszyscy pracownicy',
+                'add_new' => 'Dodaj pracownika',
+                'add_new_item' => 'Dodaj nowego pracownika',
+                'edit_item' => 'Edytuj pracownika',
+                'new_item' => 'Nowy pracownik',
+                'view_item' => 'Zobacz profil',
+                'view_items' => 'Zobacz profile',
+                'search_items' => 'Szukaj pracowników',
+                'not_found' => 'Nie znaleziono pracowników',
+                'not_found_in_trash' => 'Nie znaleziono pracowników w koszu',
+            ],
+        ],
     ],
     'taxonomies' => [
         'blog_category' => [

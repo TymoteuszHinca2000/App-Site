@@ -825,7 +825,7 @@
         width: 16px;
         height: 16px;
         flex: 0 0 auto;
-        transition: translate 300ms ease-out;
+        transition: translate 300ms ease-out, color 300ms ease-out;
     }
 
     .ui-arrow--left {
@@ -1599,8 +1599,26 @@
         transition: rotate 700ms ease-out, scale 700ms ease-out, background-color 700ms ease-out;
     }
 
-    :is([class~='group'], [class~='group/card'], [class~='group/social']):hover .icon-tilt {
+    :is([class~='group'], [class~='group/card'], [class~='group/social']):is(:hover, :focus-visible) .icon-tilt {
         rotate: 8deg;
+    }
+
+    .team-card {
+        transition: border-color 500ms ease-out, background-color 500ms ease-out, box-shadow 500ms ease-out;
+    }
+
+    .team-card:is(:hover, :focus-within) {
+        border-color: color-mix(in srgb, var(--color-brand) 45%, var(--color-border));
+        box-shadow: var(--shadow-card-hover-soft);
+    }
+
+    .team-social-link {
+        --btn-fill: var(--color-gray-200);
+    }
+
+    .team-social-link:is(:hover, :focus-visible) {
+        border-color: var(--color-gray-200);
+        color: var(--color-primary);
     }
 
     .hover-underline {
@@ -1625,8 +1643,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .btn, .btn::before, .ui-arrow, .slider-arrow, .icon-tilt, .hover-underline {
+    .btn, .btn::before, .ui-arrow, .slider-arrow, .icon-tilt, .hover-underline, .team-card {
         transition: none !important;
+    }
+
+    .icon-tilt {
+        rotate: none !important;
     }
 }
 
@@ -1636,6 +1658,49 @@
 
 @media (max-width: 767.98px) {
     .heading-6 { font-size: 1rem; line-height: 1.4; }
+}
+
+.team-stack.swiper {
+    --team-stack-limit: 8;
+    --team-stack-visible: 4;
+    --team-stack-gap: 12px;
+    width: 100%;
+    margin-inline: 0;
+}
+
+.team-stack.swiper:not(.swiper-initialized) {
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.team-stack:not(.swiper-initialized) .swiper-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: safe center;
+    gap: var(--team-stack-gap);
+}
+
+.team-stack .swiper-slide {
+    --team-stack-gaps: calc((var(--team-stack-visible) - 1) * var(--team-stack-gap));
+    display: flex;
+    width: calc((100% - var(--team-stack-gaps)) / var(--team-stack-visible));
+    height: auto;
+    aspect-ratio: 1;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .team-stack.swiper {
+        --team-stack-visible: 6;
+    }
+}
+
+@media (min-width: 1280px) {
+    .team-stack.swiper {
+        --team-stack-visible: var(--team-stack-limit);
+    }
 }
 
 /* Shared collaboration cards, including the blog sidebar variant. */
