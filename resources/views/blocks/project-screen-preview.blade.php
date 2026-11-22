@@ -17,6 +17,9 @@
     $titleHtml = trim($titleHtml);
 
     $descriptionHtml = wp_kses_post($description ?? '');
+    $buttonUrl = esc_url($button['url'] ?? '');
+    $buttonText = trim((string) ($button['title'] ?? ''));
+    $buttonTarget = ($button['target'] ?? '') === '_blank' ? '_blank' : '_self';
     $monitorId = is_array($monitorImage ?? null) ? (int) ($monitorImage['ID'] ?? $monitorImage['id'] ?? 0) : (int) ($monitorImage ?? 0);
     $screenId = is_array($screenImage ?? null) ? (int) ($screenImage['ID'] ?? $screenImage['id'] ?? 0) : (int) ($screenImage ?? 0);
     $monitorUrl = is_array($monitorImage ?? null) ? (string) ($monitorImage['url'] ?? '') : '';
@@ -27,7 +30,7 @@
 @endphp
 
 <x-block-helper.block-wrapper :block="$block" :attributes="$attributes">
-    @if($isEditor || is_singular('project'))
+    @if($isEditor || is_singular(['project', 'shop']))
         <section @if(!$isEditor && $hasMonitor && $hasScreen) x-data="alpProjectScreenPreview()" @endif class="relative isolate bg-white">
             <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
                 <div class="absolute right-[-7%] top-[12%] h-[380px] w-[380px] rounded-full bg-brand/10 blur-[110px] motion-safe:animate-pulse lg:h-[620px] lg:w-[620px]"></div>
@@ -39,15 +42,7 @@
                 <div class="grid grid-cols-1 items-start gap-7 sm:gap-9 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:gap-10 xl:gap-14">
                     <div class="relative z-10 min-w-0 lg:max-w-[570px]">
                         @if(!empty($prefix))
-                            <div @if(!$isEditor) data-aos="fade-right" data-aos-duration="500" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted sm:text-[12px]">
-                                <span class="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[6px] border border-brand/60 bg-brand/10 text-brand">
-                                    <svg class="h-[13px] w-[13px]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M12 3L13.6 8.4L19 10L13.6 11.6L12 17L10.4 11.6L5 10L10.4 8.4L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
-                                        <path d="M18.5 15.5L19.2 17.8L21.5 18.5L19.2 19.2L18.5 21.5L17.8 19.2L15.5 18.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-                                    </svg>
-                                </span>
-                                <span>{{ $prefix }}</span>
-                            </div>
+                            <x-ui.section-prefix class="mb-5" :data-aos="$isEditor ? null : 'fade-right'" data-aos-duration="500" data-aos-once="true" data-aos-easing="ease-out-cubic">{{ $prefix }}</x-ui.section-prefix>
                         @endif
 
                         @if($titleHtml !== '')
@@ -57,6 +52,12 @@
                         @if($descriptionHtml !== '')
                             <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="150" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="wysiwyg mt-5 [&_p]:!m-0 [&_p+p]:!mt-4">
                                 {!! $descriptionHtml !!}
+                            </div>
+                        @endif
+
+                        @if($buttonUrl && $buttonText !== '')
+                            <div @if(!$isEditor) data-aos="fade-up" data-aos-duration="650" data-aos-delay="220" data-aos-once="true" data-aos-easing="ease-out-cubic" @endif class="mt-6">
+                                <a href="{{ $buttonUrl }}" target="{{ $buttonTarget }}" @if($buttonTarget === '_blank') rel="noopener noreferrer" @endif class="btn btn-outline btn-outline-brand min-h-[50px] w-full gap-3 px-6 text-[14px] sm:w-fit"><span>{{ $buttonText }}</span><x-ui.arrow /></a>
                             </div>
                         @endif
 

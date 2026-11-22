@@ -28,6 +28,7 @@ class SingleFaq extends Block
         'page',
         'offer',
         'project',
+        'shop',
     ];
 
     public $blockVersion = 3;

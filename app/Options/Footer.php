@@ -91,6 +91,29 @@ class Footer extends Field
 
                 ->endRepeater()
 
+                ->addGroup('local_links', [
+                    'label' => 'Linki do landingów',
+                    'layout' => 'block',
+                ])
+                    ->addText('prefix', [
+                        'label' => 'Prefix',
+                    ])
+                    ->addText('title', [
+                        'label' => 'Tytuł',
+                    ])
+                    ->addRepeater('links', [
+                        'label' => 'Odnośniki',
+                        'layout' => 'table',
+                        'button_label' => 'Dodaj odnośnik',
+                    ])
+                        ->addLink('link', [
+                            'label' => 'Odnośnik',
+                            'return_format' => 'array',
+                            'required' => 1,
+                        ])
+                    ->endRepeater()
+                ->endGroup()
+
                 ->addText('copyright', [
                     'label' => 'Copyright',
                     'instructions' => 'Np. © 2026 Sites&App. Wszelkie prawa zastrzeżone.',

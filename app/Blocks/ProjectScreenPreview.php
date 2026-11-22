@@ -11,15 +11,15 @@ class ProjectScreenPreview extends Block
 
     public $slug = 'project-screen-preview';
 
-    public $description = 'Interaktywny podgląd projektu z płynnym przewijaniem strony w monitorze.';
+    public $description = 'Interaktywny podgląd projektu lub motywu z płynnym przewijaniem strony w monitorze.';
 
     public $category = 'appandsite';
 
     public $icon = 'desktop';
 
-    public $keywords = ['projekt', 'realizacja', 'monitor', 'podgląd', 'strona internetowa'];
+    public $keywords = ['projekt', 'realizacja', 'motyw', 'sklep', 'monitor', 'podgląd', 'strona internetowa'];
 
-    public $post_types = ['project'];
+    public $post_types = ['project', 'shop'];
 
     public $blockVersion = 3;
 
@@ -57,9 +57,10 @@ class ProjectScreenPreview extends Block
             'prefix' => get_field('prefix'),
             'title' => get_field('title'),
             'description' => get_field('description'),
+            'button' => get_field('button'),
             'monitorImage' => get_field('monitor_image'),
             'screenImage' => get_field('screen_image'),
-            'scrollHint' => get_field('scroll_hint') ?: __('Przewiń stronę w monitorze', 'appandsite'),
+            'scrollHint' => get_field('scroll_hint'),
         ];
     }
 
@@ -70,7 +71,6 @@ class ProjectScreenPreview extends Block
         $fields
             ->addText('prefix', [
                 'label' => 'Prefix',
-                'default_value' => 'PODGLĄD REALIZACJI',
             ])
             ->addWysiwyg('title', [
                 'label' => 'Tytuł H2',
@@ -81,6 +81,11 @@ class ProjectScreenPreview extends Block
                 'label' => 'Opis',
                 'toolbar' => 'basic',
                 'media_upload' => 0,
+            ])
+            ->addLink('button', [
+                'label' => 'Odnośnik',
+                'instructions' => 'Opcjonalny przycisk pod opisem — uzupełnij adres i tekst odnośnika.',
+                'return_format' => 'array',
             ])
             ->addImage('monitor_image', [
                 'label' => 'Monitor z przezroczystym ekranem',
@@ -100,7 +105,6 @@ class ProjectScreenPreview extends Block
             ])
             ->addText('scroll_hint', [
                 'label' => 'Tekst zachęcający do przewijania',
-                'default_value' => 'Przewiń stronę w monitorze',
             ]);
 
         return $fields->build();

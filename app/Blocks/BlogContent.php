@@ -10,7 +10,7 @@ class BlogContent extends Block
 {
     public $name = 'Blog Content';
     public $slug = 'blog-content';
-    public $description = 'Elastyczna treść artykułu z bocznym spisem treści, CTA i nawigacją wpisów.';
+    public $description = 'Elastyczna treść artykułu z bocznym spisem treści, kaflami nad treścią i nawigacją wpisów.';
     public $category = 'appandsite';
     public $icon = 'editor-table';
     public $keywords = ['blog', 'artykuł', 'treść', 'spis treści', 'content'];
@@ -105,7 +105,7 @@ class BlogContent extends Block
                 ])
             ->endRepeater()
             ->addRepeater('sidebar_cards', [
-                'label' => 'Kafle pod spisem treści',
+                'label' => 'Kafle nad treścią artykułu',
                 'layout' => 'block',
                 'button_label' => 'Dodaj kafel',
             ])

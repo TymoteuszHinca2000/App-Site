@@ -3,6 +3,8 @@
     $isEditor = is_admin();
     $postId = (int) (get_the_ID() ?: get_queried_object_id());
     $contentSections = array_values(is_array($sections ?? null) ? $sections : []);
+    $promoCount = count($collaborations ?? []) + count($sidebarCards ?? []);
+    $usePromoSlider = !$isEditor && $promoCount > 4;
     $tocLinks = [];
 
     $formatTitle = static function ($value) {
@@ -120,9 +122,36 @@
 <x-block-helper.block-wrapper :block="$block" :attributes="$attributes">
     <section @if(!$isEditor) x-data="alpBlogContent()" @endif class="relative bg-white">
         <x-ui.container>
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-9 xl:grid-cols-[275px_minmax(0,1fr)] xl:gap-12 2xl:gap-16">
-                <aside class="min-w-0 lg:sticky lg:top-[112px] lg:self-start lg:max-h-[calc(100dvh-128px)] lg:overflow-y-auto">
-                    @if(!empty($tocLinks))
+            @if($promoCount > 0)
+                <section class="mb-8 lg:mb-10" aria-label="{{ esc_attr__('Współprace i dodatkowe kafle', 'appandsite') }}">
+                    <h2 class="sr-only">{{ __('Współprace i dodatkowe kafle', 'appandsite') }}</h2>
+                    <div class="{{ $usePromoSlider ? 'grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 lg:gap-3' : '' }}">
+                        @if($usePromoSlider)
+                            <button type="button" x-ref="promoPrev" class="btn btn-outline slider-arrow" aria-label="{{ esc_attr__('Poprzedni kafel', 'appandsite') }}"><x-ui.arrow direction="left" /></button>
+                        @endif
+                        <div @if($usePromoSlider) x-ref="promoSlider" @endif class="min-w-0 {{ $usePromoSlider ? 'swiper group/promos !m-0 !w-full' : '' }}">
+                            <div class="grid auto-rows-fr grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-4 {{ $usePromoSlider ? 'swiper-wrapper !grid group-[.swiper-initialized]/promos:!flex group-[.swiper-initialized]/promos:gap-0' : '' }}">
+                                @foreach($collaborations ?? [] as $collaboration)
+                                    <div class="flex min-w-0 {{ $usePromoSlider ? 'swiper-slide !flex !h-auto' : '' }}">
+                                        @include('partials.collaboration-card', ['collaboration' => $collaboration, 'compact' => true, 'isEditor' => $isEditor])
+                                    </div>
+                                @endforeach
+                                @foreach($sidebarCards ?? [] as $card)
+                                    <div class="flex min-w-0 {{ $usePromoSlider ? 'swiper-slide !flex !h-auto' : '' }}">
+                                        @include('partials.blog-promo-card', ['card' => $card, 'cardIndex' => $loop->index, 'isEditor' => $isEditor])
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @if($usePromoSlider)
+                            <button type="button" x-ref="promoNext" class="btn btn-outline slider-arrow" aria-label="{{ esc_attr__('Następny kafel', 'appandsite') }}"><x-ui.arrow /></button>
+                        @endif
+                    </div>
+                </section>
+            @endif
+            <div class="grid grid-cols-1 gap-8 {{ !empty($tocLinks) ? 'lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-9 xl:grid-cols-[275px_minmax(0,1fr)] xl:gap-12 2xl:gap-16' : '' }}">
+                @if(!empty($tocLinks))
+                    <aside class="min-w-0 lg:sticky lg:top-[112px] lg:self-start">
                         <details class="group/toc overflow-hidden rounded-[12px] border border-border bg-white shadow-card-soft lg:hidden">
                             <summary class="flex cursor-pointer list-none items-center justify-between gap-3 p-4 text-[14px] font-semibold text-primary marker:hidden">
                                 <span class="flex items-center gap-2">
@@ -147,14 +176,14 @@
                             </nav>
                         </details>
 
-                        <div class="hidden rounded-[12px] border border-border bg-white p-5 shadow-card-soft lg:block">
-                            <div class="mb-5 flex items-center gap-2 text-[14px] font-semibold text-primary">
+                        <div class="hidden rounded-[12px] border border-border bg-white p-5 shadow-card-soft lg:flex lg:max-h-[calc(100dvh-128px)] lg:flex-col">
+                            <div class="mb-5 flex shrink-0 items-center gap-2 text-[14px] font-semibold text-primary">
                                 <svg class="h-4 w-4 text-brand" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <path d="M5 6H19M5 12H19M5 18H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
                                 </svg>
                                 {{ $tocTitle }}
                             </div>
-                            <nav aria-label="{{ esc_attr($tocTitle) }}">
+                            <nav class="min-h-0 overflow-y-auto" aria-label="{{ esc_attr($tocTitle) }}">
                                 <ol class="space-y-3">
                                     @foreach($tocLinks as $entry)
                                         <li class="flex items-start gap-3 text-[13px] leading-[1.6]">
@@ -165,65 +194,8 @@
                                 </ol>
                             </nav>
                         </div>
-                    @endif
-
-                    @if(!empty($collaborations))
-                        <section class="collaborations-stack mt-4" aria-label="{{ esc_attr__('Współprace', 'appandsite') }}">
-                            <h2 class="sr-only">{{ __('Współprace', 'appandsite') }}</h2>
-                            @foreach($collaborations as $collaboration)
-                                @include('partials.collaboration-card', ['collaboration' => $collaboration, 'compact' => true, 'isEditor' => $isEditor])
-                            @endforeach
-                        </section>
-                    @endif
-
-                    @if(!empty($sidebarCards))
-                        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-                            @foreach($sidebarCards as $card)
-                                <div class="group relative overflow-hidden rounded-[12px] border border-border bg-surface p-5 shadow-card-soft transition-[border-color,box-shadow,background-color] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/45 hover:bg-surface-alt hover:shadow-card-hover-soft motion-reduce:transition-none">
-                                    @if(!empty($card['image']['ID']))
-                                        <div class="mb-4 overflow-hidden rounded-[9px]">
-                                            {!! wp_get_attachment_image($card['image']['ID'], 'medium', false, [
-                                                'class' => 'h-auto w-full object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.035] motion-reduce:transition-none',
-                                                'loading' => 'lazy',
-                                                'decoding' => 'async',
-                                            ]) !!}
-                                        </div>
-                                    @endif
-
-                                    @if(!empty($card['title']))
-                                        <div class="relative inline-block max-w-full pb-[5px]">
-                                            <p class="heading-6">{{ $card['title'] }}</p>
-                                            <span class="hover-underline"></span>
-                                        </div>
-                                    @endif
-
-                                    @if(!empty($card['description']))
-                                        <p class="mt-2 mb-4 whitespace-pre-line text-[13px] leading-[1.6] text-muted">{{ trim((string) $card['description']) }}</p>
-                                    @endif
-
-                                    <div class="mt-4 flex flex-col items-start gap-2">
-                                        @if(!empty($card['copy_url']))
-                                            <button type="button" @if(!$isEditor) @click="copyUrl(@js($card['copy_url']), {{ $loop->index }})" @endif class="btn btn-outline btn-outline-brand min-h-10 gap-2 px-4 text-[12px] font-semibold">
-                                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                                    <rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8" />
-                                                    <path d="M16 8V6C16 4.895 15.105 4 14 4H6C4.895 4 4 4.895 4 6V14C4 15.105 4.895 16 6 16H8" stroke="currentColor" stroke-width="1.8" />
-                                                </svg>
-                                                <span @if(!$isEditor) x-text="copiedIndex === {{ $loop->index }} ? @js(__('Skopiowano!', 'appandsite')) : @js($card['copy_label'] ?: __('Kopiuj link', 'appandsite'))" @endif>{{ $card['copy_label'] ?: __('Kopiuj link', 'appandsite') }}</span>
-                                            </button>
-                                        @endif
-
-                                        @if(!empty($card['button']['url']) && !empty($card['button']['title']))
-                                            <a href="{{ esc_url($card['button']['url']) }}" target="{{ esc_attr($card['button']['target'] ?: '_self') }}" @if(($card['button']['target'] ?? '') === '_blank') rel="noopener noreferrer" @endif class="btn btn-primary group/btn min-h-[46px] w-full gap-3 rounded-[8px] px-4 text-[13px] font-bold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
-                                                <span class="relative z-10">{{ $card['button']['title'] }}</span>
-                                                <x-ui.arrow />
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                </aside>
+                    </aside>
+                @endif
 
                 <div class="min-w-0">
                     <div class="space-y-11 sm:space-y-14 lg:space-y-16">

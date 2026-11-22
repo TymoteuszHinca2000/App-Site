@@ -28,6 +28,19 @@
         $footerData['privacy_policy']
         ?? null;
 
+    $localLinks = is_array($footerData['local_links'] ?? null)
+        ? $footerData['local_links']
+        : [];
+
+    $localLinksPrefix = trim((string) ($localLinks['prefix'] ?? ''));
+    $localLinksTitle = trim((string) ($localLinks['title'] ?? ''));
+    $localLinksItems = array_values(array_filter(
+        is_array($localLinks['links'] ?? null) ? $localLinks['links'] : [],
+        static fn ($item): bool => is_array($item['link'] ?? null)
+            && trim((string) ($item['link']['title'] ?? '')) !== ''
+            && esc_url((string) ($item['link']['url'] ?? '')) !== ''
+    ));
+
     $currentLanguage =
         function_exists('pll_current_language')
             ? pll_current_language('slug')
@@ -214,6 +227,39 @@
             </div>
 
         </x-ui.container>
+
+        @if(!empty($localLinksItems))
+            <nav class="border-t border-white/10" aria-label="{{ esc_attr($localLinksTitle ?: __('Linki do landingów', 'appandsite')) }}">
+                <x-ui.container>
+                    <div class="py-8 lg:py-10">
+                        @if($localLinksPrefix !== '' || $localLinksTitle !== '')
+                            <div class="mb-6">
+                                @if($localLinksPrefix !== '')
+                                    <x-ui.section-prefix class="mb-3 [&>span:last-child]:text-brand">{{ $localLinksPrefix }}</x-ui.section-prefix>
+                                @endif
+                                @if($localLinksTitle !== '')
+                                    <h2 class="heading-4 text-white">{{ $localLinksTitle }}</h2>
+                                @endif
+                            </div>
+                        @endif
+                        <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+                            @foreach($localLinksItems as $item)
+                                @php
+                                    $link = $item['link'];
+                                    $linkTarget = ($link['target'] ?? '') === '_blank' ? '_blank' : '_self';
+                                @endphp
+                                <li class="flex min-w-0">
+                                    <a href="{{ esc_url($link['url']) }}" target="{{ $linkTarget }}" @if($linkTarget === '_blank') rel="noopener noreferrer" @endif class="btn btn-light-outline min-h-[44px] w-full justify-between gap-3 border-white/30 bg-white/[0.02] px-4 py-3 text-left text-[13px] font-semibold leading-[1.4]">
+                                        <span class="min-w-0 [overflow-wrap:anywhere]">{{ $link['title'] }}</span>
+                                        <x-ui.arrow />
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </x-ui.container>
+            </nav>
+        @endif
 
         
         <div class="border-t border-white/10">

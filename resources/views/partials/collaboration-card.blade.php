@@ -17,7 +17,7 @@
     $actionDescription = (string) ($collaboration['action_description'] ?? '');
 @endphp
 
-<article @if(!$isEditor) x-data="alpCollaborationCard()" @endif class="collaboration-card{{ $compact ? ' collaboration-card--compact' : '' }}{{ !$logoId ? ' collaboration-card--text-only' : '' }}">
+<article @if(!$isEditor) x-data="alpCollaborationCard()" @endif class="collaboration-card{{ $compact ? ' collaboration-card--compact w-full' : '' }}{{ !$logoId ? ' collaboration-card--text-only' : '' }}">
     <div class="collaboration-card__main">
         @if($logoId && !$compact)
             <div class="collaboration-card__logo">
