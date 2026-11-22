@@ -1,0 +1,56 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AppAndSite Base 1.0.0\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: appandsite\n"
+
+msgid "Strona główna"
+msgstr "Home"
+
+msgid "Przejdź do treści"
+msgstr "Skip to content"
+
+#, php-format
+msgid "%s — strona główna"
+msgstr "%s - home"
+
+msgid "Menu główne"
+msgstr "Main menu"
+
+msgid "Menu stopki"
+msgstr "Footer menu"
+
+msgid "Menu mobilne"
+msgstr "Mobile menu"
+
+msgid "Otwórz lub zamknij menu"
+msgstr "Open or close menu"
+
+#, php-format
+msgid "%s — wybierz język"
+msgstr "%s - select language"
+
+msgid "Język:"
+msgstr "Language:"
+
+msgid "Skopiowano"
+msgstr "Copied"
+
+msgid "Kopiuj dane kontaktowe"
+msgstr "Copy contact details"
+
+msgid "Profil społecznościowy"
+msgstr "Social media profile"
+
+msgid "Formularz kontaktowy jest chwilowo niedostępny."
+msgstr "The contact form is temporarily unavailable."
+
+msgid "Wszelkie prawa zastrzeżone."
+msgstr "All rights reserved."
+
+msgid "Linki do landingów"
+msgstr "Location pages"

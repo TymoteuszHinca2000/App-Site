@@ -41,6 +41,8 @@ add_filter('theme_file_path', function ($path, $file) {
 }, 10, 2);
 
 add_action('after_setup_theme', function () {
+    load_theme_textdomain('appandsite', get_template_directory().'/resources/lang');
+
     remove_theme_support('block-templates');
 
     register_nav_menus([
